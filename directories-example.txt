@@ -1,0 +1,7 @@
+state
+ # state data
+ /var/lib/cf_ddns
+logs
+ # logs
+ /var/log/cf_ddns
+

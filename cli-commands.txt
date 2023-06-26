@@ -1,0 +1,39 @@
+# Decorators legend:
+# $ - supports environmental variable value
+# ^ - default property, value
+# & - supports multiple values
+# * - required value
+# {} - placeholder values
+# {^} - placeholder values, first value is default
+
+create-dns-record
+    token$*
+    zone-id*
+    content*
+    name*
+    proxied
+    record-type
+    comment
+    tags&
+    ttl
+
+list-dns-records
+    token$*
+    zone-id$
+
+sync
+    token*
+
+trace
+
+update-dns-record
+    token$*
+    zone-id*
+    id*
+    content*
+    name*
+    proxied
+    record-type
+    comment
+    tags&
+    ttl
