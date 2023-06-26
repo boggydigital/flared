@@ -42,7 +42,7 @@ func main() {
 
 	nod.EnableStdOutPresenter()
 
-	ns := nod.Begin("novus is checking for any news")
+	ns := nod.Begin("cf_ddns is processing DNS records")
 	defer ns.End()
 
 	//once.Do(func() {

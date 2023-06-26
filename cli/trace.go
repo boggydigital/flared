@@ -13,7 +13,7 @@ func TraceHandler(u *url.URL) error {
 
 func Trace() error {
 
-	ta := nod.Begin("tracing WAN IP address...")
+	ta := nod.Begin("tracing...")
 	defer ta.End()
 
 	tm, err := cf_trace.GetMap(http.DefaultClient)
@@ -23,10 +23,11 @@ func Trace() error {
 
 	summary := make(map[string][]string)
 	for k, v := range tm {
-		summary[k] = []string{v}
+		val := k + "=" + v
+		summary[val] = nil
 	}
 
-	ta.EndWithSummary("trace results:", summary)
+	ta.EndWithSummary("", summary)
 
 	return nil
 }

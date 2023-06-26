@@ -8,7 +8,7 @@
 
 create-dns-record
     token$*
-    zone-id*
+    zone-id$*
     content*
     name*
     proxied
@@ -22,13 +22,13 @@ list-dns-records
     zone-id$
 
 sync
-    token*
+    token$*
 
 trace
 
 update-dns-record
     token$*
-    zone-id*
+    zone-id$*
     id*
     content*
     name*

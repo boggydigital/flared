@@ -2,6 +2,8 @@ github.com/boggydigital/cf_api v0.1.0 h1:2X2f+StpTAefqqw8l3k9lbZVnc7alhVhmyhc/Nk
 github.com/boggydigital/cf_api v0.1.0/go.mod h1:whjSf1edznDdDYQTbfFpleen+fD833czqYg2dhPg35g=
 github.com/boggydigital/cf_api v0.1.1 h1:1SnMCCCiJpNYwMMAVeB4mfVhfi79+8MjTM9/HKeGFQ0=
 github.com/boggydigital/cf_api v0.1.1/go.mod h1:whjSf1edznDdDYQTbfFpleen+fD833czqYg2dhPg35g=
+github.com/boggydigital/cf_api v0.1.2 h1:tLxjGjRN2z0wTCi+r/7ipmvpklsFYB2DymMrMAlVwTI=
+github.com/boggydigital/cf_api v0.1.2/go.mod h1:whjSf1edznDdDYQTbfFpleen+fD833czqYg2dhPg35g=
 github.com/boggydigital/clo v0.3.1 h1:hbODCWxflR7y4/O3+96uIuS/KNN5WXfItm5zoMpy36k=
 github.com/boggydigital/clo v0.3.1/go.mod h1:/3bLgOSu4HbChi6qbST8ZN6uDfKyrgVvVwEKNy/GxYw=
 github.com/boggydigital/nod v0.1.10 h1:HLHEIZVmBsqSASEqQnguUjhNc4bfTSKI20sOKCPwUKY=
