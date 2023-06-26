@@ -40,8 +40,10 @@ func ListDNSRecords(token, zoneId string) error {
 		ldra.EndWithResult("success")
 
 		heading = "DNS records:"
-		for i, drr := range ldrr.Result {
-			summary["record "+strconv.Itoa(i)] = drr.Strings()
+		for _, drr := range ldrr.Result {
+			for k, v := range drr.Summary() {
+				summary[k] = v
+			}
 		}
 
 	} else {
