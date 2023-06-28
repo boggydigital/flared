@@ -19,10 +19,11 @@ create-dns-record
 
 list-dns-records
     token$*
-    zone-id$
+    zone-id$*
 
 sync
     token$*
+    filename
 
 trace
 

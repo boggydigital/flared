@@ -16,7 +16,7 @@ func UpdateDNSRecordHandler(u *url.URL) error {
 	id := q.Get("id")
 	content := q.Get("content")
 	name := q.Get("name")
-	proxied := q.Has("proxied")
+	proxied := q.Get("proxied") == "true"
 	recordType := q.Get("record-type")
 	comment := q.Get("comment")
 
