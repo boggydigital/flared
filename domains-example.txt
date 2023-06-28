@@ -1,0 +1,5 @@
+# `name`
+example.com
+    zone-id={zone-identifier}
+    # optionally, parameters for https://developers.cloudflare.com/api/operations/dns-records-for-a-zone-create-dns-record#request-body
+    # if `content` is not specified, current WAN IP will be used

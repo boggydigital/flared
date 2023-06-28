@@ -4,13 +4,24 @@ import (
 	"fmt"
 	"github.com/boggydigital/cf_api"
 	"github.com/boggydigital/cf_api/cf_trace"
+	"github.com/boggydigital/cf_ddns/data"
+	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/wits"
+	"golang.org/x/exp/maps"
 	"net/http"
 	"net/url"
 	"os"
 	"strconv"
 	"strings"
+	"time"
+)
+
+const (
+	SyncStarted   = "sync-started"
+	SyncNames     = "sync-names"
+	SyncErrored   = "sync-errored"
+	SyncCompleted = "sync-completed"
 )
 
 func SyncHandler(u *url.URL) error {
@@ -33,17 +44,43 @@ func Sync(token, filename string) error {
 	sa := nod.Begin("syncing DNS records...")
 	defer sa.End()
 
+	var set int64 = -1
+
+	rdx, err := kvas.ConnectRedux(data.Pwd(), data.SyncResultsProperty)
+	if err != nil {
+		set = time.Now().Unix()
+		return sa.EndWithError(err)
+	}
+
+	defer func() {
+		if set > 0 {
+			_ = rdx.ReplaceValues(SyncErrored, strconv.FormatInt(set, 10))
+		}
+	}()
+
+	if err = rdx.ReplaceValues(SyncStarted, strconv.FormatInt(time.Now().Unix(), 10)); err != nil {
+		set = time.Now().Unix()
+		return sa.EndWithError(err)
+	}
+
 	rskva := nod.Begin(" reading %s...", filename)
 	defer rskva.End()
 
 	f, err := os.Open(filename)
 	if err != nil {
+		set = time.Now().Unix()
 		return rskva.EndWithError(err)
 	}
 
 	skv, err := wits.ReadSectionKeyValue(f)
 	if err != nil {
+		set = time.Now().Unix()
 		return rskva.EndWithError(err)
+	}
+
+	if err = rdx.ReplaceValues(SyncNames, maps.Keys(skv)...); err != nil {
+		set = time.Now().Unix()
+		return sa.EndWithError(err)
 	}
 
 	rskva.EndWithResult("done")
@@ -68,6 +105,7 @@ func Sync(token, filename string) error {
 	for zoneId := range zones {
 		ldrr, err := c.ListDNSRecords(zoneId)
 		if err != nil {
+			set = time.Now().Unix()
 			return ldra.EndWithError(err)
 		}
 		if ldrr.Success {
@@ -88,6 +126,7 @@ func Sync(token, filename string) error {
 	ipv4 := ""
 	tm, err := cf_trace.GetMap(http.DefaultClient)
 	if err != nil {
+		set = time.Now().Unix()
 		return ta.EndWithError(err)
 	}
 
@@ -140,6 +179,7 @@ func Sync(token, filename string) error {
 		}
 
 		if err != nil {
+			set = time.Now().Unix()
 			return cua.EndWithError(err)
 		}
 		nodDNSRecordResult(drr)
@@ -148,6 +188,11 @@ func Sync(token, filename string) error {
 	}
 
 	cua.EndWithResult("done")
+
+	if err = rdx.ReplaceValues(SyncCompleted, strconv.FormatInt(time.Now().Unix(), 10)); err != nil {
+		set = time.Now().Unix()
+		return sa.EndWithError(err)
+	}
 
 	return nil
 }

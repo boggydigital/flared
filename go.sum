@@ -8,7 +8,11 @@ github.com/boggydigital/cf_api v0.1.3 h1:aZWv4c1uZplCieDLF/wAo3jOEfBkZDSSYnG0Tqu
 github.com/boggydigital/cf_api v0.1.3/go.mod h1:whjSf1edznDdDYQTbfFpleen+fD833czqYg2dhPg35g=
 github.com/boggydigital/clo v0.3.1 h1:hbODCWxflR7y4/O3+96uIuS/KNN5WXfItm5zoMpy36k=
 github.com/boggydigital/clo v0.3.1/go.mod h1:/3bLgOSu4HbChi6qbST8ZN6uDfKyrgVvVwEKNy/GxYw=
+github.com/boggydigital/kvas v0.3.27 h1:9Oczfp5GFkAsZqLyiIsEp/0cCVfTXA6V6/3MEAw+zyw=
+github.com/boggydigital/kvas v0.3.27/go.mod h1:I+wVKLxOqWhzw0X8nez/ec/GVXcQY5GUksFJBx+G7Yc=
 github.com/boggydigital/nod v0.1.10 h1:HLHEIZVmBsqSASEqQnguUjhNc4bfTSKI20sOKCPwUKY=
 github.com/boggydigital/nod v0.1.10/go.mod h1:dienEhm5HTEkFxZLYI+FltcdJANfSNg3UGx0u7L/UZE=
 github.com/boggydigital/wits v0.2.3 h1:Z0eB+QlIA18fJmblyV6ZJQ/swPYSFhOxfgMXOQz4/c8=
 github.com/boggydigital/wits v0.2.3/go.mod h1:aR/z0vfMLtg0b4hcts0qiSTZcA51O8A2N3U9laqd2Lc=
+golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df h1:UA2aFVmmsIlefxMk29Dp2juaUSth8Pyn3Tq5Y5mJGME=
+golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df/go.mod h1:FXUEEKJgO7OQYeo8N01OfiKP8RXMtf6e8aTskBGqWdc=

@@ -21,6 +21,10 @@ list-dns-records
     token$*
     zone-id$*
 
+serve
+    port$*
+    stderr$
+
 sync
     token$*
     filename

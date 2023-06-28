@@ -99,6 +99,7 @@ func main() {
 	clo.HandleFuncs(map[string]clo.Handler{
 		"create-dns-record": cli.CreateDNSRecordHandler,
 		"list-dns-records":  cli.ListDNSRecordsHandler,
+		"serve":             cli.ServeHandler,
 		"sync":              cli.SyncHandler,
 		"trace":             cli.TraceHandler,
 		"update-dns-record": cli.UpdateDNSRecordHandler,
