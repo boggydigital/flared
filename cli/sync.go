@@ -40,7 +40,7 @@ func Sync(token, filename string) error {
 	// will always set error, unless it's cleared on success at the end
 	syncError := true
 
-	rdx, err := kvas.ConnectReduxAssets(data.Pwd(), nil, data.SyncResultsProperty, data.LastWANIPsProperty)
+	rdx, err := kvas.ConnectReduxAssets(data.Pwd(), nil, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		return sa.EndWithError(err)
 	}
@@ -128,6 +128,11 @@ func Sync(token, filename string) error {
 
 	cua.TotalInt(len(skv))
 
+	lsips := make(map[string][]string)
+	for _, name := range rdx.Keys(data.LastSetIPsProperty) {
+		lsips[name], _ = rdx.GetAllValues(data.LastSetIPsProperty, name)
+	}
+
 	for name, rkv := range skv {
 		zoneId, ok := rkv["zone-id"]
 		if !ok {
@@ -139,6 +144,9 @@ func Sync(token, filename string) error {
 		if content == "" {
 			content = ipv4
 		}
+
+		lsips[name] = []string{content}
+
 		proxied := rkv["proxied"] == "true"
 		recordType := rkv["type"]
 		if recordType == "" {
@@ -160,6 +168,12 @@ func Sync(token, filename string) error {
 		var drr *cf_api.DNSRecordResultResponse
 
 		if id := recordId(zoneRecords[zoneId], name, recordType); id != "" {
+
+			// current content is the same as the last one - no update needed
+			if lsip, ok := lsips[name]; ok && len(lsip) > 0 && lsip[0] == content {
+				continue
+			}
+
 			drr, err = c.UpdateDNSRecord(zoneId, id, content, name, proxied, recordType, comment, tags, ttl)
 		} else {
 			drr, err = c.CreateDNSRecord(zoneId, content, name, proxied, recordType, comment, tags, ttl)
@@ -171,6 +185,10 @@ func Sync(token, filename string) error {
 		nodDNSRecordResult(drr)
 
 		cua.Increment()
+	}
+
+	if err = rdx.BatchReplaceValues(data.LastSetIPsProperty, lsips); err != nil {
+		return sa.EndWithError(err)
 	}
 
 	cua.EndWithResult("done")
