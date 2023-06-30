@@ -37,22 +37,21 @@ func Sync(token, filename string) error {
 	sa := nod.Begin("syncing DNS records...")
 	defer sa.End()
 
-	var set int64 = -1
+	// will always set error, unless it's cleared on success at the end
+	syncError := true
 
-	rdx, err := kvas.ConnectRedux(data.Pwd(), data.SyncResultsProperty)
+	rdx, err := kvas.ConnectReduxAssets(data.Pwd(), nil, data.SyncResultsProperty, data.LastWANIPsProperty)
 	if err != nil {
-		set = time.Now().UTC().Unix()
 		return sa.EndWithError(err)
 	}
 
 	defer func() {
-		if set > 0 {
-			_ = rdx.ReplaceValues(data.SyncErrored, strconv.FormatInt(set, 10))
+		if syncError {
+			_ = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncErrored, nts())
 		}
 	}()
 
-	if err = rdx.ReplaceValues(data.SyncStarted, strconv.FormatInt(time.Now().UTC().Unix(), 10)); err != nil {
-		set = time.Now().UTC().Unix()
+	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncStarted, nts()); err != nil {
 		return sa.EndWithError(err)
 	}
 
@@ -61,18 +60,15 @@ func Sync(token, filename string) error {
 
 	f, err := os.Open(filename)
 	if err != nil {
-		set = time.Now().UTC().Unix()
 		return rskva.EndWithError(err)
 	}
 
 	skv, err := wits.ReadSectionKeyValue(f)
 	if err != nil {
-		set = time.Now().UTC().Unix()
 		return rskva.EndWithError(err)
 	}
 
-	if err = rdx.ReplaceValues(data.SyncNames, maps.Keys(skv)...); err != nil {
-		set = time.Now().UTC().Unix()
+	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncNames, maps.Keys(skv)...); err != nil {
 		return sa.EndWithError(err)
 	}
 
@@ -98,7 +94,6 @@ func Sync(token, filename string) error {
 	for zoneId := range zones {
 		ldrr, err := c.ListDNSRecords(zoneId)
 		if err != nil {
-			set = time.Now().UTC().Unix()
 			return ldra.EndWithError(err)
 		}
 		if ldrr.Success {
@@ -119,7 +114,6 @@ func Sync(token, filename string) error {
 	ipv4 := ""
 	tm, err := cf_trace.GetMap(http.DefaultClient)
 	if err != nil {
-		set = time.Now().UTC().Unix()
 		return ta.EndWithError(err)
 	}
 
@@ -172,7 +166,6 @@ func Sync(token, filename string) error {
 		}
 
 		if err != nil {
-			set = time.Now().UTC().Unix()
 			return cua.EndWithError(err)
 		}
 		nodDNSRecordResult(drr)
@@ -182,10 +175,12 @@ func Sync(token, filename string) error {
 
 	cua.EndWithResult("done")
 
-	if err = rdx.ReplaceValues(data.SyncCompleted, strconv.FormatInt(time.Now().UTC().Unix(), 10)); err != nil {
-		set = time.Now().UTC().Unix()
+	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncCompleted, nts()); err != nil {
 		return sa.EndWithError(err)
 	}
+
+	// clear error state
+	syncError = false
 
 	return nil
 }
@@ -197,4 +192,8 @@ func recordId(dnsRecords []cf_api.DNSRecordResult, name, recordType string) stri
 		}
 	}
 	return ""
+}
+
+func nts() string {
+	return strconv.FormatInt(time.Now().UTC().Unix(), 10)
 }
