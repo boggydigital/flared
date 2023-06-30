@@ -5,15 +5,22 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"net/http"
+	"sort"
 	"strconv"
 	"time"
 )
 
+const (
+	StatusSuccess    = "success"
+	StatusProcessing = "processing"
+	StatusError      = "error"
+)
+
 type Status struct {
-	Success   bool
-	Completed time.Time
-	Errored   time.Time
-	Names     []string
+	State          string
+	TimestampTitle string
+	Timestamp      time.Time
+	Names          []string
 }
 
 func GetStatus(w http.ResponseWriter, r *http.Request) {
@@ -26,21 +33,35 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	syncNames, _ := rdx.GetAllValues(data.SyncNames)
 	syncStarted := getTime(rdx, data.SyncStarted)
 	syncErrored := getTime(rdx, data.SyncErrored)
 	syncCompleted := getTime(rdx, data.SyncCompleted)
 
-	success := false
+	state := StatusProcessing
 	if syncCompleted.After(syncStarted) {
-		success = true
+		state = StatusSuccess
+	} else if syncErrored.After(syncStarted) {
+		state = StatusError
 	}
 
+	syncNames, _ := rdx.GetAllValues(data.SyncNames)
+	sort.Strings(syncNames)
+
 	status := &Status{
-		Success:   success,
-		Completed: syncCompleted,
-		Errored:   syncErrored,
-		Names:     syncNames,
+		State: state,
+		Names: syncNames,
+	}
+
+	switch status.State {
+	case StatusSuccess:
+		status.Timestamp = syncCompleted
+		status.TimestampTitle = "Last updated:"
+	case StatusProcessing:
+		status.Timestamp = syncStarted
+		status.TimestampTitle = "Started:"
+	case StatusError:
+		status.Timestamp = syncErrored
+		status.TimestampTitle = "Last error:"
 	}
 
 	DefaultHeaders(w)

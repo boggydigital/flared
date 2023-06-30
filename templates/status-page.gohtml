@@ -8,21 +8,28 @@
         {{template "css-base-themes"}}
         <style>
             body {margin: var(--large); display: flex; flex-direction: column}
-            h1 {padding: var(--normal); color: var(--background-color); border-radius: var(--border-radius-large)}
-            h1.success {background: var(--system-green-color)}
-            h1.warning {background: var(--system-orange-color)}
+            h1 {
+                margin-block-end: calc(1.5 * var(--large));
+            }
+            h1 span {
+                width: min-content;
+                color: var(--background-color);
+                padding: var(--normal);
+                border-radius: var(--border-radius-large);
+                font-size: var(--fs-x-smaller);
+                text-transform: capitalize;
+            }
+            h1.success span {background: var(--system-green-color)}
+            h1.processing span {background: var(--system-yellow-color)}
+            h1.error span {background: var(--system-red-color)}
             span.subtitle {color: var(--subtle-color)}
             ul li::marker {color: var(--subtle-color)}
             ul li {font-weight: bold}
         </style>
     </head>
     <body>
-        <h1 class="{{if .Success}}success{{else}}warning{{end}}">{{if .Success}}Success{{else}}Warning{{end}}</h1>
-
-        <span class="subtitle">
-            {{if .Success}}Last updated:{{else}}Last error:{{end}}
-            {{if .Success}}{{.Completed}}{{else}}{{.Errored}}{{end}}
-        </span>
+        <h1 class="{{.State}}"><span>{{.State}}</span></h1>
+        <span class="subtitle">{{.TimestampTitle}} {{.Timestamp}}</span>
         <ul>
             {{range $name := .Names}}
                 <li>{{$name}}</li>
