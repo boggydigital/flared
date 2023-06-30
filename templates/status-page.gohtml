@@ -1,0 +1,33 @@
+{{define "status-page"}}
+    <!doctype html>
+    <html lang="en" id="_top">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="dark light">
+        {{template "css-base-themes"}}
+        <style>
+            body {margin: var(--large); display: flex; flex-direction: column}
+            h1 {padding: var(--normal); color: var(--background-color); border-radius: var(--border-radius-large)}
+            h1.success {background: var(--system-green-color)}
+            h1.warning {background: var(--system-orange-color)}
+            span.subtitle {color: var(--subtle-color)}
+            ul li::marker {color: var(--subtle-color)}
+            ul li {font-weight: bold}
+        </style>
+    </head>
+    <body>
+        <h1 class="{{if .Success}}success{{else}}warning{{end}}">{{if .Success}}Success{{else}}Warning{{end}}</h1>
+
+        <span class="subtitle">
+            {{if .Success}}Last updated:{{else}}Last error:{{end}}
+            {{if .Success}}{{.Completed}}{{else}}{{.Errored}}{{end}}
+        </span>
+        <ul>
+            {{range $name := .Names}}
+                <li>{{$name}}</li>
+                {{end}}
+        </ul>
+    </body>
+    </html>
+{{end}}

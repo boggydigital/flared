@@ -2,31 +2,28 @@ package main
 
 import (
 	"bytes"
+	"embed"
 	_ "embed"
 	"github.com/boggydigital/cf_ddns/cli"
 	"github.com/boggydigital/cf_ddns/data"
+	"github.com/boggydigital/cf_ddns/rest"
 	"github.com/boggydigital/clo"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/wits"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 var (
-	//once = sync.Once{}
-	////go:embed "templates/*.gohtml"
-	//templates embed.FS
-	////go:embed "stencil_app/styles/css.gohtml"
-	//stencilAppStyles embed.FS
+	once = sync.Once{}
+	//go:embed "templates/*.gohtml"
+	templates embed.FS
 	//go:embed "cli-commands.txt"
 	cliCommands []byte
 	//go:embed "cli-help.txt"
 	cliHelp []byte
 )
-
-//var tmplFuncs = template.FuncMap{
-//	"empty": empty,
-//}
 
 const (
 	directoriesFilename = "directories.txt"
@@ -45,13 +42,9 @@ func main() {
 	ns := nod.Begin("cf_ddns is processing DNS records")
 	defer ns.End()
 
-	//once.Do(func() {
-	//	if err := rest.Init(templates, tmplFuncs, stencilAppStyles); err != nil {
-	//		_ = ns.EndWithError(err)
-	//		os.Exit(1)
-	//	}
-	//	cli.Init(templates, tmplFuncs)
-	//})
+	once.Do(func() {
+		rest.Init(templates)
+	})
 
 	if err := readUserDirectories(); err != nil {
 		_ = ns.EndWithError(err)

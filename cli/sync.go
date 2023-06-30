@@ -17,13 +17,6 @@ import (
 	"time"
 )
 
-const (
-	SyncStarted   = "sync-started"
-	SyncNames     = "sync-names"
-	SyncErrored   = "sync-errored"
-	SyncCompleted = "sync-completed"
-)
-
 func SyncHandler(u *url.URL) error {
 	q := u.Query()
 	token := q.Get("token")
@@ -48,18 +41,18 @@ func Sync(token, filename string) error {
 
 	rdx, err := kvas.ConnectRedux(data.Pwd(), data.SyncResultsProperty)
 	if err != nil {
-		set = time.Now().Unix()
+		set = time.Now().UTC().Unix()
 		return sa.EndWithError(err)
 	}
 
 	defer func() {
 		if set > 0 {
-			_ = rdx.ReplaceValues(SyncErrored, strconv.FormatInt(set, 10))
+			_ = rdx.ReplaceValues(data.SyncErrored, strconv.FormatInt(set, 10))
 		}
 	}()
 
-	if err = rdx.ReplaceValues(SyncStarted, strconv.FormatInt(time.Now().Unix(), 10)); err != nil {
-		set = time.Now().Unix()
+	if err = rdx.ReplaceValues(data.SyncStarted, strconv.FormatInt(time.Now().UTC().Unix(), 10)); err != nil {
+		set = time.Now().UTC().Unix()
 		return sa.EndWithError(err)
 	}
 
@@ -68,18 +61,18 @@ func Sync(token, filename string) error {
 
 	f, err := os.Open(filename)
 	if err != nil {
-		set = time.Now().Unix()
+		set = time.Now().UTC().Unix()
 		return rskva.EndWithError(err)
 	}
 
 	skv, err := wits.ReadSectionKeyValue(f)
 	if err != nil {
-		set = time.Now().Unix()
+		set = time.Now().UTC().Unix()
 		return rskva.EndWithError(err)
 	}
 
-	if err = rdx.ReplaceValues(SyncNames, maps.Keys(skv)...); err != nil {
-		set = time.Now().Unix()
+	if err = rdx.ReplaceValues(data.SyncNames, maps.Keys(skv)...); err != nil {
+		set = time.Now().UTC().Unix()
 		return sa.EndWithError(err)
 	}
 
@@ -105,7 +98,7 @@ func Sync(token, filename string) error {
 	for zoneId := range zones {
 		ldrr, err := c.ListDNSRecords(zoneId)
 		if err != nil {
-			set = time.Now().Unix()
+			set = time.Now().UTC().Unix()
 			return ldra.EndWithError(err)
 		}
 		if ldrr.Success {
@@ -126,7 +119,7 @@ func Sync(token, filename string) error {
 	ipv4 := ""
 	tm, err := cf_trace.GetMap(http.DefaultClient)
 	if err != nil {
-		set = time.Now().Unix()
+		set = time.Now().UTC().Unix()
 		return ta.EndWithError(err)
 	}
 
@@ -179,7 +172,7 @@ func Sync(token, filename string) error {
 		}
 
 		if err != nil {
-			set = time.Now().Unix()
+			set = time.Now().UTC().Unix()
 			return cua.EndWithError(err)
 		}
 		nodDNSRecordResult(drr)
@@ -189,8 +182,8 @@ func Sync(token, filename string) error {
 
 	cua.EndWithResult("done")
 
-	if err = rdx.ReplaceValues(SyncCompleted, strconv.FormatInt(time.Now().Unix(), 10)); err != nil {
-		set = time.Now().Unix()
+	if err = rdx.ReplaceValues(data.SyncCompleted, strconv.FormatInt(time.Now().UTC().Unix(), 10)); err != nil {
+		set = time.Now().UTC().Unix()
 		return sa.EndWithError(err)
 	}
 
