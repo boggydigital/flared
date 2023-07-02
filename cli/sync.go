@@ -235,7 +235,7 @@ func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx kvas.Red
 				return false
 			}
 		}
-		if lsip, ok := rdx.GetFirstVal(data.LastSetIPsProperty, name); ok && lsip != ipv4 {
+		if lsip, _ := rdx.GetFirstVal(data.LastSetIPsProperty, name); lsip != ipv4 {
 			return false
 		}
 	}
