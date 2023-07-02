@@ -99,15 +99,15 @@ func Sync(token, filename string) error {
 
 	// check if we can avoid doing any more work:
 	// domains
-	//if alreadySetLatestContent(ipv4, skv, rdx) {
-	//
-	//	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncCompleted, nts()); err != nil {
-	//		return sa.EndWithError(err)
-	//	}
-	//
-	//	sa.EndWithResult("already set latest content")
-	//	return nil
-	//}
+	if alreadySetLatestContent(ipv4, skv, rdx) {
+
+		if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncCompleted, nts()); err != nil {
+			return sa.EndWithError(err)
+		}
+
+		sa.EndWithResult("already set latest content")
+		return nil
+	}
 
 	ldra := nod.NewProgress(" listing current DNS records...")
 	defer ldra.End()
