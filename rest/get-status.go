@@ -21,13 +21,14 @@ type Status struct {
 	TimestampTitle string
 	Timestamp      time.Time
 	Names          []string
+	LastSetIPs     map[string]string
 }
 
 func GetStatus(w http.ResponseWriter, r *http.Request) {
 
 	// GET /status
 
-	rdx, err := kvas.ConnectRedux(data.Pwd(), data.SyncResultsProperty)
+	rdx, err := kvas.ConnectReduxAssets(data.Pwd(), nil, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
@@ -44,12 +45,18 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 		state = StatusError
 	}
 
-	syncNames, _ := rdx.GetAllValues(data.SyncNames)
+	syncNames, _ := rdx.GetAllValues(data.SyncResultsProperty, data.SyncNames)
 	sort.Strings(syncNames)
 
+	lastSetIPs := make(map[string]string)
+	for _, name := range syncNames {
+		lastSetIPs[name], _ = rdx.GetFirstVal(data.LastSetIPsProperty, name)
+	}
+
 	status := &Status{
-		State: state,
-		Names: syncNames,
+		State:      state,
+		Names:      syncNames,
+		LastSetIPs: lastSetIPs,
 	}
 
 	switch status.State {
@@ -72,9 +79,9 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getTime(rdx kvas.ReduxValues, p string) time.Time {
+func getTime(rdx kvas.ReduxAssets, p string) time.Time {
 	u := int64(0)
-	if str, ok := rdx.GetFirstVal(p); ok {
+	if str, ok := rdx.GetFirstVal(data.SyncResultsProperty, p); ok {
 		if su, err := strconv.ParseInt(str, 10, 64); err == nil {
 			u = su
 		}

@@ -82,6 +82,33 @@ func Sync(token, filename string) error {
 		}
 	}
 
+	ta := nod.Begin(" tracing WAN IP address...")
+	defer ta.End()
+
+	ipv4 := ""
+	tm, err := cf_trace.GetMap(http.DefaultClient)
+	if err != nil {
+		return ta.EndWithError(err)
+	}
+
+	if ip, ok := tm["ip"]; ok {
+		ipv4 = ip
+	}
+
+	ta.EndWithResult("done")
+
+	// check if we can avoid doing any more work:
+	// domains
+	//if alreadySetLatestContent(ipv4, skv, rdx) {
+	//
+	//	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncCompleted, nts()); err != nil {
+	//		return sa.EndWithError(err)
+	//	}
+	//
+	//	sa.EndWithResult("already set latest content")
+	//	return nil
+	//}
+
 	ldra := nod.NewProgress(" listing current DNS records...")
 	defer ldra.End()
 
@@ -107,21 +134,6 @@ func Sync(token, filename string) error {
 	}
 
 	ldra.EndWithResult("done")
-
-	ta := nod.Begin(" tracing WAN IP address...")
-	defer ta.End()
-
-	ipv4 := ""
-	tm, err := cf_trace.GetMap(http.DefaultClient)
-	if err != nil {
-		return ta.EndWithError(err)
-	}
-
-	ta.EndWithResult("done")
-
-	if ip, ok := tm["ip"]; ok {
-		ipv4 = ip
-	}
 
 	cua := nod.NewProgress(" setting DNS records...")
 	defer cua.End()
@@ -214,4 +226,18 @@ func recordId(dnsRecords []cf_api.DNSRecordResult, name, recordType string) stri
 
 func nts() string {
 	return strconv.FormatInt(time.Now().UTC().Unix(), 10)
+}
+
+func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx kvas.ReduxAssets) bool {
+	for name, kv := range skv {
+		if content, ok := kv["content"]; ok {
+			if content != "" && content != ipv4 {
+				return false
+			}
+		}
+		if lsip, ok := rdx.GetFirstVal(data.LastSetIPsProperty, name); ok && lsip != ipv4 {
+			return false
+		}
+	}
+	return true
 }

@@ -9,32 +9,61 @@
         <style>
             body {margin: var(--large); display: flex; flex-direction: column}
             h1 {
-                margin-block-end: calc(1.5 * var(--large));
+                margin-block-end: calc(var(--large));
             }
             h1 span {
                 width: min-content;
                 color: var(--background-color);
-                padding: var(--normal);
+                padding: var(--small) var(--normal);
                 border-radius: var(--border-radius-large);
                 font-size: var(--fs-x-smaller);
+                font-weight: normal;
                 text-transform: capitalize;
             }
             h1.success span {background: var(--system-green-color)}
             h1.processing span {background: var(--system-yellow-color)}
             h1.error span {background: var(--system-red-color)}
             span.subtitle {color: var(--subtle-color)}
-            ul li::marker {color: var(--subtle-color)}
-            ul li {font-weight: bold}
+            table {
+                margin-block-start:var(--large);
+                border-collapse: collapse;
+                border: 1px solid var(--subtle-color);
+                width: min-content;
+            }
+            table tr * {
+                border: 1px solid var(--subtle-color);
+                padding: var(--small);
+                padding-inline-end: var(--normal)
+            }
+            table th {text-align: left}
+            table tr.heading {background-color: var(--highlight-color)}
         </style>
     </head>
     <body>
         <h1 class="{{.State}}"><span>{{.State}}</span></h1>
         <span class="subtitle">{{.TimestampTitle}} {{.Timestamp}}</span>
-        <ul>
+        <table>
+            <colgroup>
+                <col/>
+                <col/>
+            </colgroup>
+            <tr class="heading">
+                <th>Name</th>
+                <th>Content</th>
+            </tr>
+            {{$lastSetIPs := .LastSetIPs}}
             {{range $name := .Names}}
-                <li>{{$name}}</li>
-                {{end}}
-        </ul>
+                <tr>
+                    <td>{{$name}}</td>
+                    <td>{{index $lastSetIPs $name}}</td>
+                </tr>
+            {{end}}
+        </table>
+{{/*        <ul>*/}}
+{{/*            {{range $name := .Names}}*/}}
+{{/*                <li>{{$name}}</li>*/}}
+{{/*                {{end}}*/}}
+{{/*        </ul>*/}}
     </body>
     </html>
 {{end}}
