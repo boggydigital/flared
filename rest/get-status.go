@@ -39,9 +39,9 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 	syncCompleted := getTime(rdx, data.SyncCompleted)
 
 	state := StatusProcessing
-	if syncCompleted.After(syncStarted) {
+	if syncStarted == syncCompleted || syncCompleted.After(syncStarted) {
 		state = StatusSuccess
-	} else if syncErrored.After(syncStarted) {
+	} else if syncStarted == syncErrored || syncErrored.After(syncStarted) {
 		state = StatusError
 	}
 
