@@ -157,8 +157,6 @@ func Sync(token, filename string) error {
 			content = ipv4
 		}
 
-		lsips[name] = []string{content}
-
 		proxied := rkv["proxied"] == "true"
 		recordType := rkv["type"]
 		if recordType == "" {
@@ -190,6 +188,8 @@ func Sync(token, filename string) error {
 		} else {
 			drr, err = c.CreateDNSRecord(zoneId, content, name, proxied, recordType, comment, tags, ttl)
 		}
+
+		lsips[name] = []string{content}
 
 		if err != nil {
 			return cua.EndWithError(err)
