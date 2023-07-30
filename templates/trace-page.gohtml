@@ -1,0 +1,25 @@
+{{define "trace-page"}}
+    <!doctype html>
+    <html lang="en" id="_top">
+    {{template "head"}}
+    <body>
+    <h1><span>Trace Results</span></h1>
+    <table>
+        <colgroup>
+            <col/>
+            <col/>
+        </colgroup>
+        <tr class="heading">
+            <th>Name</th>
+            <th>Content</th>
+        </tr>
+        {{range $k, $v := .}}
+            <tr>
+                <td>{{$k}}</td>
+                <td>{{$v}}</td>
+            </tr>
+        {{end}}
+    </table>
+    </body>
+    </html>
+{{end}}

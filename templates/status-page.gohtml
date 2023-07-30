@@ -1,70 +1,34 @@
 {{define "status-page"}}
     <!doctype html>
     <html lang="en" id="_top">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="color-scheme" content="dark light">
-        {{template "css-base-themes"}}
-        <style>
-            body {margin: var(--large); display: flex; flex-direction: column}
-            h1 {
-                margin-block-start: 0;
-                margin-block-end: calc(var(--large));
-            }
-            h1 span {
-                width: min-content;
-                color: var(--background-color);
-                padding: var(--small) var(--normal);
-                border-radius: var(--border-radius-large);
-                font-size: var(--fs-x-smaller);
-                font-weight: normal;
-                text-transform: capitalize;
-            }
-            h1.success span {background: var(--system-green-color)}
-            h1.processing span {background: var(--system-yellow-color)}
-            h1.error span {background: var(--system-red-color)}
-            time {color: var(--subtle-color); font-size: var(--fs-x-smaller)}
-            table {
-                margin-block-end:var(--large);
-                border-collapse: collapse;
-                border: 1px solid var(--subtle-color);
-                width: min-content;
-            }
-            table tr * {
-                border: 1px solid var(--subtle-color);
-                padding: var(--small);
-                padding-inline-end: var(--normal)
-            }
-            table th {text-align: left}
-            table tr.heading {background-color: var(--highlight-color)}
-        </style>
-    </head>
+    {{template "head"}}
     <body>
-        <h1 class="{{.State}}"><span>{{.State}}</span></h1>
-        <table>
-            <colgroup>
-                <col/>
-                <col/>
-            </colgroup>
-            <tr class="heading">
-                <th>Name</th>
-                <th>Content</th>
+    <h1 class="{{.State}}"><span>{{.State}}</span></h1>
+    <table>
+        <colgroup>
+            <col/>
+            <col/>
+        </colgroup>
+        <tr class="heading">
+            <th>Name</th>
+            <th>Content</th>
+        </tr>
+        {{$lastSetIPs := .LastSetIPs}}
+        {{range $name := .Names}}
+            <tr>
+                <td>{{$name}}</td>
+                <td>{{index $lastSetIPs $name}}</td>
             </tr>
-            {{$lastSetIPs := .LastSetIPs}}
-            {{range $name := .Names}}
-                <tr>
-                    <td>{{$name}}</td>
-                    <td>{{index $lastSetIPs $name}}</td>
-                </tr>
-            {{end}}
-        </table>
-        <time>{{.TimestampTitle}} {{.Timestamp}}</time>
-{{/*        <ul>*/}}
-{{/*            {{range $name := .Names}}*/}}
-{{/*                <li>{{$name}}</li>*/}}
-{{/*                {{end}}*/}}
-{{/*        </ul>*/}}
+        {{end}}
+    </table>
+    <details>
+        <summary>Debug</summary>
+        <ul>
+            <li><a href="/trace">Trace</a></li>
+            <li><a href="https://dash.cloudflare.com">Cloudflare dashboard</a></li>
+        </ul>
+    </details>
+    <time>{{.TimestampTitle}} {{.Timestamp}}</time>
     </body>
     </html>
 {{end}}
