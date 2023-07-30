@@ -63,8 +63,20 @@
                 cursor: pointer;
             }
 
+            ul {
+                margin-block-start: var(--large);
+                padding-inline-start: var(--normal);
+            }
+
             ul > li {
-                margin: var(--normal) var(--x-small);
+                margin: var(--normal);
+                margin-inline-start: 0;
+                list-style: none
+            }
+
+            ul > li > a {
+                display: inline-block;
+                width: 100%
             }
 
             a {
