@@ -27,7 +27,7 @@ serve
 
 sync
     token$*
-    filename
+    filename$
 
 trace
 
