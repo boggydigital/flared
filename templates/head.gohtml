@@ -14,69 +14,71 @@
             h1 {
                 margin-block-start: 0;
                 margin-block-end: calc(var(--large));
-            }
 
-            h1 span {
-                width: min-content;
-                padding: var(--small) var(--normal) var(--small) 0;
-                font-size: var(--fs-x-smaller);
-                text-transform: capitalize;
-            }
+                & span {
+                    width: min-content;
+                    padding: var(--small) var(--normal) var(--small) 0;
+                    font-size: var(--fs-x-smaller);
+                    text-transform: capitalize;
+                    color: inherit;
+                }
 
-            h1.success span {
-                color: var(--system-green-color)
-            }
+                &.success {
+                    color: var(--system-green-color)
+                }
 
-            h1.processing span {
-                color: var(--system-yellow-color)
-            }
+                &.processing {
+                    color: var(--system-yellow-color)
+                }
 
-            h1.error span {
-                color: var(--system-red-color)
+                &.error {
+                    color: var(--system-red-color)
+                }
+
             }
 
             table {
                 border-collapse: collapse;
                 border: 1px solid var(--subtle-color);
                 width: min-content;
-            }
 
-            table tr * {
-                border: 1px solid var(--subtle-color);
-                padding: var(--small);
-                padding-inline-end: var(--normal)
-            }
+                & tr * {
+                    border: 1px solid var(--subtle-color);
+                    padding: var(--small);
+                    padding-inline-end: var(--normal)
+                }
 
-            table th {
-                text-align: left
-            }
+                & th {
+                    text-align: left
+                }
 
-            table tr.heading {
-                background-color: var(--highlight-color)
+                & tr.heading {
+                    background-color: var(--highlight-color)
+                }
             }
 
             details {
                 margin: var(--large) 0;
-            }
-            
-            details > summary {
-                cursor: pointer;
+
+                & > summary {
+                    cursor: pointer;
+                }
             }
 
             ul {
                 margin-block-start: var(--large);
                 padding-inline-start: var(--normal);
-            }
 
-            ul > li {
-                margin: var(--normal);
-                margin-inline-start: 0;
-                list-style: none
-            }
+                & > li {
+                    margin: var(--normal);
+                    margin-inline-start: 0;
+                    list-style: none;
 
-            ul > li > a {
-                display: inline-block;
-                width: 100%
+                    & > a {
+                        display: inline-block;
+                        width: 100%
+                    }
+                }
             }
 
             a {
