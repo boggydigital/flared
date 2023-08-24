@@ -1,4 +1,4 @@
-module github.com/boggydigital/cf_ddns
+module github.com/boggydigital/flared
 
 go 1.20
 

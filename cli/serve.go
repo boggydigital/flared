@@ -2,7 +2,7 @@ package cli
 
 import (
 	"fmt"
-	"github.com/boggydigital/cf_ddns/rest"
+	"github.com/boggydigital/flared/rest"
 	"github.com/boggydigital/nod"
 	"net/http"
 	"net/url"

@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"embed"
 	_ "embed"
-	"github.com/boggydigital/cf_ddns/cli"
-	"github.com/boggydigital/cf_ddns/data"
-	"github.com/boggydigital/cf_ddns/rest"
 	"github.com/boggydigital/clo"
+	"github.com/boggydigital/flared/cli"
+	"github.com/boggydigital/flared/data"
+	"github.com/boggydigital/flared/rest"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/wits"
 	"os"
@@ -29,15 +29,15 @@ const (
 )
 
 var (
-	stateDir = "/var/lib/cf_ddns"
-	logsDir  = "/var/log/cf_ddns"
+	stateDir = "/var/lib/flared"
+	logsDir  = "/var/log/flared"
 )
 
 func main() {
 
 	nod.EnableStdOutPresenter()
 
-	ns := nod.Begin("cf_ddns is processing DNS records")
+	ns := nod.Begin("flared is processing DNS records")
 	defer ns.End()
 
 	once.Do(func() {

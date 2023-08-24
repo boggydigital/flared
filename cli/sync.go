@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/boggydigital/cf_api"
 	"github.com/boggydigital/cf_api/cf_trace"
-	"github.com/boggydigital/cf_ddns/data"
+	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/wits"

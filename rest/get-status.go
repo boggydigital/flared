@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/boggydigital/cf_ddns/data"
+	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"net/http"

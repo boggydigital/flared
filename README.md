@@ -1,4 +1,4 @@
-# cf_ddns
+# flared
 Cloudflare DDNS utility
 
 ## Installation
@@ -8,17 +8,17 @@ We recommend using `docker` install. Consider the following `compose.yml` exampl
 ```yaml
 version: '3'
 services:
-  cf_ddns:
-    container_name: cf_ddns
-    image: ghcr.io/boggydigital/cf_ddns:latest
+  flared:
+    container_name: flared
+    image: ghcr.io/boggydigital/flared:latest
     environment:
-      # - CF_DDNS_TOKEN=(CLOUDFLARE DNS API TOKEN)
-      # - CF_DDNS_SYNC_FILENAME=/var/lib/cf_ddns/domains.txt
+      # - FLARED_TOKEN=(CLOUDFLARE DNS API TOKEN)
+      # - FLARED_SYNC_FILENAME=/var/lib/flared/domains.txt
     volumes:
       # state
-      - /docker/cf_ddns:/var/lib/cf_ddns
+      - /docker/flared:/var/lib/flared
       # logs
-      - /docker/cf_ddns:/var/log/cf_ddns
+      - /docker/flared:/var/log/flared
       # sharing timezone from the host
       - /etc/localtime:/etc/localtime:ro
     ports:

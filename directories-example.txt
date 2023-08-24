@@ -1,7 +1,7 @@
 state
  # state data
- /var/lib/cf_ddns
+ /var/lib/flared
 logs
  # logs
- /var/log/cf_ddns
+ /var/log/flared
 
