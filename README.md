@@ -12,8 +12,8 @@ services:
     container_name: flared
     image: ghcr.io/boggydigital/flared:latest
     environment:
-      # - FLARED_TOKEN=(CLOUDFLARE DNS API TOKEN)
-      # - FLARED_SYNC_FILENAME=/var/lib/flared/domains.txt
+      # - FD_TOKEN=(CLOUDFLARE DNS API TOKEN)
+      # - FD_SYNC_FILENAME=/var/lib/flared/domains.txt
     volumes:
       # state
       - /docker/flared:/var/lib/flared
