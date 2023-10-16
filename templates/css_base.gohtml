@@ -2,53 +2,53 @@
     <style id="css-base-themes">
         @media screen and (prefers-color-scheme: light) {
             :root {
-                --color-red: rgb(255, 59, 48);
-                --color-orange: rgb(245, 149, 0);
-                --color-yellow: rgb(245, 204, 0);
-                --color-green: rgb(52, 199, 89);
-                --color-mint: rgb(0, 199, 190);
-                --color-teal: rgb(48, 176, 199);
-                --color-cyan: rgb(50, 173, 230);
-                --color-blue: rgb(0, 122, 255);
-                --color-indigo: rgb(88, 86, 214);
-                --color-purple: rgb(175, 82, 222);
-                --color-pink: rgb(255, 45, 85);
-                --color-brown: rgb(162, 132, 94);
+                --color-red: rgb(255, 49, 38);
+                --color-orange: rgb(245, 139, 0);
+                --color-yellow: rgb(245, 194, 0);
+                --color-green: rgb(30, 195, 55);
+                --color-mint: rgb(0, 189, 180);
+                --color-teal: rgb(46, 167, 189);
+                --color-cyan: rgb(65, 175, 220);
+                --color-blue: rgb(0, 122, 245);
+                --color-indigo: rgb(84, 82, 204);
+                --color-purple: rgb(159, 75, 201);
+                --color-pink: rgb(245, 35, 75);
+                --color-brown: rgb(152, 122, 84);
 
-                --color-gray0: rgb(71,71,73);
-                --color-gray: rgb(142, 142, 147);
-                --color-gray2: rgb(174,174,174);
-                --color-gray3: rgb(199,199,204);
-                --color-gray4: rgb(209,209,214);
-                --color-gray5: rgb(229,229,234);
-                --color-gray6: rgb(242,242,247);
+                --color-gray0: rgb(74,74,81);
+                --color-gray: rgb(108,108,114);
+                --color-gray2: rgb(142,142,147);
+                --color-gray3: rgb(174,174,178);
+                --color-gray4: rgb(188,188,192);
+                --color-gray5: rgb(216,216,220);
+                --color-gray6: rgb(235,235,240);
 
-                --shadow-color: var(--color-gray4);
+                --shadow-color: var(--color-gray3);
             }
         }
 
         @media screen and (prefers-color-scheme: dark) {
             :root {
-                --color-red: rgb(255, 69, 58);
-                --color-orange: rgb(255, 159, 10);
-                --color-yellow: rgb(255, 214, 10);
-                --color-green: rgb(48, 209, 88);
-                --color-mint: rgb(99, 230, 226);
-                --color-teal: rgb(64, 200, 224);
-                --color-cyan: rgb(100, 210, 255);
-                --color-blue: rgb(10, 132, 255);
-                --color-indigo: rgb(94, 92, 230);
-                --color-purple: rgb(191, 90, 242);
-                --color-pink: rgb(255, 55, 95);
-                --color-brown: rgb(172, 142, 104);
+                --color-red: rgb(255, 79, 68);
+                --color-orange: rgb(255, 169, 20);
+                --color-yellow: rgb(255, 224, 20);
+                --color-green: rgb(60, 225, 85);
+                --color-mint: rgb(108, 224, 219);
+                --color-teal: rgb(68, 212, 237);
+                --color-cyan: rgb(90, 205, 250);
+                --color-blue: rgb(20, 142, 255);
+                --color-indigo: rgb(99, 97, 242);
+                --color-purple: rgb(204, 101, 255);
+                --color-pink: rgb(255, 65, 105);
+                --color-brown: rgb(182, 152, 114);
 
-                --color-gray0: rgb(213,213,220);
-                --color-gray: rgb(142, 142, 147);
-                --color-gray2: rgb(99,99,102);
-                --color-gray3: rgb(72,72,74);
-                --color-gray4: rgb(58,58,60);
-                --color-gray5: rgb(44,44,46);
-                --color-gray6: rgb(28,28,30);
+                --color-gray0: rgb(224,224,228);
+                --color-gray: rgb(174,174,178);
+                --color-gray2: rgb(124,124,128);
+                --color-gray3: rgb(84,84,86);
+                --color-gray4: rgb(68,68,70);
+                --color-gray5: rgb(54,54,56);
+                --color-gray6: rgb(36,36,38);
 
                 --shadow-color: var(--color-gray6);
             }
@@ -79,6 +79,8 @@
             --fs-x-smaller: 80%;
             --fs-xx-smaller: 50%;
             --fs-xxx-smaller: calc(0.75 * var(--fs-xx-smaller));
+
+            --fw-bolder: 600;
 
             --resp-grid-column-width: calc(20 * var(--normal));
             --resp-grid-columns-default: 3;
@@ -181,7 +183,7 @@
             & summary {
                 display: flex;
                 align-items: center;
-                font-weight: bold;
+                font-weight: var(--fw-bolder);
 
                 &::after {
                     content: "\2026";
@@ -204,7 +206,7 @@
             background-color: var(--highlight-color);
             padding: var(--small);
             font-size: var(--fs-x-smaller);
-            font-weight: bold;
+            font-weight: var(--fw-bolder);
 
             &::placeholder {
                 font-weight: normal;
@@ -213,17 +215,23 @@
         }
 
         button, input[type=submit] {
-            border: var(--xx-small) solid var(--subtle-color);
+            border: var(--x-small) solid var(--highlight-color);
             background-color: var(--color);
             text-decoration: none;
             color: var(--highlight-color);
-            font-weight: 600;
+            font-weight: var(--fw-bolder);
             font-size: var(--fs-x-smaller);
             width: 100%;
             margin: var(--large) 0;
             padding: var(--small);
             border-radius: var(--border-radius-large);
+            box-shadow: var(--box-shadow);
             cursor: pointer;
+
+            &:hover {
+                background-color: var(--subtle-color);
+                color: var(--background-color);
+            }
         }
 
         .shortcuts {
@@ -243,7 +251,7 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 background-color: var(--highlight-color);
-                padding: calc(3 * var(--xx-small));
+                padding: var(--x-small);
                 border-radius: var(--border-radius-large);
                 justify-content: center;
                 box-shadow: var(--box-shadow);
@@ -256,12 +264,25 @@
                 text-decoration: none;
                 padding: var(--small);
                 border-radius: var(--border-radius);
+
+                &:hover {
+                    background-color: var(--subtle-color);
+                    color: var(--background-color);
+                    box-shadow: var(--box-shadow);
+                }
+
             }
 
             & .current a {
                 background-color: var(--color);
                 color: var(--background-color);
                 box-shadow: var(--box-shadow);
+
+                &:hover {
+                    background-color: var(--subtle-color);
+                    color: var(--background-color);
+                    box-shadow: var(--box-shadow);
+                }
             }
         }
 
