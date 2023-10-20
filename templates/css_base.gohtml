@@ -1,59 +1,6 @@
 {{define "css-base-themes"}}
+    {{template "css-colors"}}
     <style id="css-base-themes">
-        @media screen and (prefers-color-scheme: light) {
-            :root {
-                --color-red: rgb(255, 49, 38);
-                --color-orange: rgb(245, 139, 0);
-                --color-yellow: rgb(245, 194, 0);
-                --color-green: rgb(30, 195, 55);
-                --color-mint: rgb(0, 189, 180);
-                --color-teal: rgb(46, 167, 189);
-                --color-cyan: rgb(65, 175, 220);
-                --color-blue: rgb(0, 122, 245);
-                --color-indigo: rgb(84, 82, 204);
-                --color-purple: rgb(159, 75, 201);
-                --color-pink: rgb(245, 35, 75);
-                --color-brown: rgb(152, 122, 84);
-
-                --color-gray0: rgb(74,74,81);
-                --color-gray: rgb(108,108,114);
-                --color-gray2: rgb(142,142,147);
-                --color-gray3: rgb(174,174,178);
-                --color-gray4: rgb(188,188,192);
-                --color-gray5: rgb(216,216,220);
-                --color-gray6: rgb(235,235,240);
-
-                --shadow-color: var(--color-gray3);
-            }
-        }
-
-        @media screen and (prefers-color-scheme: dark) {
-            :root {
-                --color-red: rgb(255, 79, 68);
-                --color-orange: rgb(255, 169, 20);
-                --color-yellow: rgb(255, 224, 20);
-                --color-green: rgb(60, 225, 85);
-                --color-mint: rgb(108, 224, 219);
-                --color-teal: rgb(68, 212, 237);
-                --color-cyan: rgb(90, 205, 250);
-                --color-blue: rgb(20, 142, 255);
-                --color-indigo: rgb(99, 97, 242);
-                --color-purple: rgb(204, 101, 255);
-                --color-pink: rgb(255, 65, 105);
-                --color-brown: rgb(182, 152, 114);
-
-                --color-gray0: rgb(224,224,228);
-                --color-gray: rgb(174,174,178);
-                --color-gray2: rgb(124,124,128);
-                --color-gray3: rgb(84,84,86);
-                --color-gray4: rgb(68,68,70);
-                --color-gray5: rgb(54,54,56);
-                --color-gray6: rgb(36,36,38);
-
-                --shadow-color: var(--color-gray6);
-            }
-        }
-
         :root {
             /* theme independent vars */
             --xxx-small: calc(var(--xx-small) / 2); /* 0.0625rem == 1px */
@@ -86,16 +33,13 @@
             --resp-grid-columns-default: 3;
             --resp-grid-columns: var(--resp-grid-columns-default);
 
-            --background-color: var(--color-gray5);
-            --highlight-color: var(--color-gray6);
-            --color: var(--color-gray0);
-            --subtle-color: var(--color-gray);
-
             /* defaults */
             background-color: var(--background-color);
             color: var(--color);
             font-family: -apple-system, sans-serif;
             position: relative;
+
+            transition: background-color 500ms ease-in-out;
         }
 
         html {
