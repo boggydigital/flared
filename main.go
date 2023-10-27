@@ -67,6 +67,7 @@ func main() {
 		"sync":              cli.SyncHandler,
 		"trace":             cli.TraceHandler,
 		"update-dns-record": cli.UpdateDNSRecordHandler,
+		"version":           cli.VersionHandler,
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {
