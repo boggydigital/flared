@@ -7,7 +7,7 @@ toolchain go1.21.3
 require (
 	github.com/boggydigital/cf_api v0.1.3
 	github.com/boggydigital/clo v1.0.4
-	github.com/boggydigital/kvas v0.3.30
+	github.com/boggydigital/kvas v0.3.31
 	github.com/boggydigital/middleware v0.1.11
 	github.com/boggydigital/nod v0.1.21
 	github.com/boggydigital/wits v0.2.3

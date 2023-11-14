@@ -10,6 +10,8 @@ github.com/boggydigital/kvas v0.3.29 h1:uISZcsSRFsQNQGUH6pXxAKsYkts+UCtcetj1QVYE
 github.com/boggydigital/kvas v0.3.29/go.mod h1:ZKvlZY8ygEgdsH4LXpr3TL456O2HJ8Spr3KYCtQxzD0=
 github.com/boggydigital/kvas v0.3.30 h1:i3em9pvtur4s9WgwF8a/DynUFmLjE7MAo+bjXm2sVY0=
 github.com/boggydigital/kvas v0.3.30/go.mod h1:ZKvlZY8ygEgdsH4LXpr3TL456O2HJ8Spr3KYCtQxzD0=
+github.com/boggydigital/kvas v0.3.31 h1:Ifgfyflbug1fz9YwPLnFcEdv6zZMukKQVOrnpp8ST9k=
+github.com/boggydigital/kvas v0.3.31/go.mod h1:ZKvlZY8ygEgdsH4LXpr3TL456O2HJ8Spr3KYCtQxzD0=
 github.com/boggydigital/middleware v0.1.11 h1:jmUbgB1EPUoM9vP8BllgZMwbx2Gar17uNPqtsWHXSDE=
 github.com/boggydigital/middleware v0.1.11/go.mod h1:RCbCF5f5evepYZyVcZpqzMwiF+xSY62xi9CKEeQJJCg=
 github.com/boggydigital/nod v0.1.21 h1:pQbrgswCuU5dr3IWS1Z902PJAm5BebSLG+Q3aG7KJ+4=
