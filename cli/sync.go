@@ -40,7 +40,7 @@ func Sync(token, filename string) error {
 	// will always set error, unless it's cleared on success at the end
 	syncError := true
 
-	rdx, err := kvas.ConnectReduxAssets(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
+	rdx, err := kvas.ReduxWriter(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		return sa.EndWithError(err)
 	}
@@ -228,7 +228,7 @@ func nts() string {
 	return strconv.FormatInt(time.Now().UTC().Unix(), 10)
 }
 
-func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx kvas.ReduxAssets) bool {
+func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx kvas.ReadableRedux) bool {
 	for name, kv := range skv {
 		if content, ok := kv["content"]; ok {
 			if content != "" && content != ipv4 {

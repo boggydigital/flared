@@ -28,7 +28,7 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 
 	// GET /status
 
-	rdx, err := kvas.ConnectReduxAssets(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
+	rdx, err := kvas.ReduxReader(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
@@ -79,7 +79,7 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getTime(rdx kvas.ReduxAssets, p string) time.Time {
+func getTime(rdx kvas.ReadableRedux, p string) time.Time {
 	u := int64(0)
 	if str, ok := rdx.GetFirstVal(data.SyncResultsProperty, p); ok {
 		if su, err := strconv.ParseInt(str, 10, 64); err == nil {
