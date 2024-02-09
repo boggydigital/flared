@@ -40,7 +40,7 @@ func Sync(token, filename string) error {
 	// will always set error, unless it's cleared on success at the end
 	syncError := true
 
-	rdx, err := kvas.ReduxWriter(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
+	rdx, err := kvas.NewReduxWriter(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		return sa.EndWithError(err)
 	}

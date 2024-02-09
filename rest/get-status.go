@@ -28,7 +28,7 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 
 	// GET /status
 
-	rdx, err := kvas.ReduxReader(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
+	rdx, err := kvas.NewReduxReader(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
