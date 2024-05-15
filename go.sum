@@ -26,6 +26,8 @@ github.com/boggydigital/middleware v0.1.16 h1:ajmnG2A2gCCkVAj85GrC7Pokp+KtB0rG9c
 github.com/boggydigital/middleware v0.1.16/go.mod h1:KUe0GXODjXyAcX7ow2o5lEz4+86dhG7ChTX5ekjqGro=
 github.com/boggydigital/nod v0.1.21 h1:pQbrgswCuU5dr3IWS1Z902PJAm5BebSLG+Q3aG7KJ+4=
 github.com/boggydigital/nod v0.1.21/go.mod h1:bYucIZ3rLHBZKf/3+T+eTSxuijuja7Y6OgU2P6o2/vo=
+github.com/boggydigital/pathways v0.1.14 h1:cJDL7WfwRM7T8FUJcXy28ReAE7AfeC3ZzDFqIUzGke4=
+github.com/boggydigital/pathways v0.1.14/go.mod h1:3QniBtHEdGUQgQAnBIQnh0C1vu+bmpDCmsLe5XyruS8=
 github.com/boggydigital/testo v0.1.8 h1:NKuKLpWKn8gG3dYq8xNrFYHimxoCTdzLOs242q6jeQo=
 github.com/boggydigital/testo v0.1.8/go.mod h1:8JTO6UKeQPsHS82vbCH/3NLDfewmr/84vVQ6rNLdCas=
 github.com/boggydigital/wits v0.2.3 h1:Z0eB+QlIA18fJmblyV6ZJQ/swPYSFhOxfgMXOQz4/c8=

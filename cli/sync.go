@@ -7,11 +7,13 @@ import (
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
+	"github.com/boggydigital/pathways"
 	"github.com/boggydigital/wits"
 	"golang.org/x/exp/maps"
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -40,7 +42,12 @@ func Sync(token, filename string) error {
 	// will always set error, unless it's cleared on success at the end
 	syncError := true
 
-	rdx, err := kvas.NewReduxWriter(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
+	amd, err := pathways.GetAbsDir(data.Metadata)
+	if err != nil {
+		return sa.EndWithError(err)
+	}
+
+	rdx, err := kvas.NewReduxWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		return sa.EndWithError(err)
 	}
@@ -55,10 +62,20 @@ func Sync(token, filename string) error {
 		return sa.EndWithError(err)
 	}
 
-	rskva := nod.Begin(" reading %s...", filename)
+	aid, err := pathways.GetAbsDir(data.Input)
+	if err != nil {
+		return sa.EndWithError(err)
+	}
+
+	// ignore everything that's not actual filename
+	filename = filepath.Base(filename)
+
+	absFilename := filepath.Join(aid, filename)
+
+	rskva := nod.Begin(" reading %s...", absFilename)
 	defer rskva.End()
 
-	f, err := os.Open(filename)
+	f, err := os.Open(absFilename)
 	if err != nil {
 		return rskva.EndWithError(err)
 	}

@@ -9,7 +9,7 @@ import (
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/flared/rest"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigital/wits"
+	"github.com/boggydigital/pathways"
 	"os"
 	"sync"
 )
@@ -25,7 +25,7 @@ var (
 )
 
 const (
-	directoriesFilename = "directories.txt"
+	dirOverridesFilename = "directories.txt"
 )
 
 var (
@@ -40,16 +40,21 @@ func main() {
 	ns := nod.Begin("flared is processing DNS records")
 	defer ns.End()
 
-	once.Do(func() {
-		rest.Init(templates)
-	})
-
-	if err := readUserDirectories(); err != nil {
+	if err := pathways.Setup(
+		dirOverridesFilename,
+		data.DefaultFlaredRootDir,
+		nil,
+		data.AllAbsDirs...); err != nil {
 		_ = ns.EndWithError(err)
 		os.Exit(1)
 	}
 
-	data.ChRoot(stateDir)
+	once.Do(func() {
+		if err := rest.Init(templates); err != nil {
+			_ = ns.EndWithError(err)
+			os.Exit(1)
+		}
+	})
 
 	defs, err := clo.Load(
 		bytes.NewBuffer(cliCommands),
@@ -79,36 +84,4 @@ func main() {
 		_ = ns.EndWithError(err)
 		os.Exit(1)
 	}
-}
-
-func readUserDirectories() error {
-	if _, err := os.Stat(directoriesFilename); os.IsNotExist(err) {
-		return nil
-	}
-
-	udFile, err := os.Open(directoriesFilename)
-	if err != nil {
-		return err
-	}
-
-	dirs, err := wits.ReadKeyValue(udFile)
-	if err != nil {
-		return err
-	}
-
-	if sd, ok := dirs["state"]; ok {
-		stateDir = sd
-	}
-	if ld, ok := dirs["logs"]; ok {
-		logsDir = ld
-	}
-	//validate that directories actually exist
-	if _, err := os.Stat(stateDir); err != nil {
-		return err
-	}
-	if _, err := os.Stat(logsDir); err != nil {
-		return err
-	}
-
-	return nil
 }

@@ -14,10 +14,10 @@ COPY --from=build /go/src/app/fd /usr/bin/fd
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 EXPOSE 1564
-#state
-VOLUME /var/lib/flared
-#logs
-VOLUME /var/log/flared
+#input
+VOLUME /var/lib/flared/input
+#metadata
+VOLUME /var/log/flared/metadata
 
 ENTRYPOINT ["/usr/bin/fd"]
 CMD ["serve","-port", "1564", "-stderr"]

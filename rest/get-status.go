@@ -28,8 +28,8 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 
 	// GET /status
 
-	rdx, err := kvas.NewReduxReader(data.Pwd(), data.SyncResultsProperty, data.LastSetIPsProperty)
-	if err != nil {
+	var err error
+	if rdx, err = rdx.RefreshReader(); err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
 	}

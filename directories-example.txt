@@ -1,7 +1,6 @@
-state
- # state data
- /var/lib/flared
-logs
- # logs
- /var/log/flared
-
+input
+ # input directory - domains.txt
+ /var/lib/flared/input
+metadata
+ # metadata
+ /var/log/flared/metadata
