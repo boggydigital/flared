@@ -16,9 +16,9 @@ services:
       # - FD_SYNC_FILENAME=domains.txt
     volumes:
       # input
-      - /docker/flared:/var/lib/flared/input
+      - /docker/flared:/usr/share/flared/input
       # metadata
-      - /docker/flared/metadata:/var/log/flared/metadata
+      - /docker/flared/metadata:/usr/share/flared/metadata
       # sharing timezone from the host
       - /etc/localtime:/etc/localtime:ro
     ports:

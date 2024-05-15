@@ -15,9 +15,9 @@ COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 EXPOSE 1564
 #input
-VOLUME /var/lib/flared/input
+VOLUME /usr/share/flared/input
 #metadata
-VOLUME /var/log/flared/metadata
+VOLUME /usr/share/flared/metadata
 
 ENTRYPOINT ["/usr/bin/fd"]
 CMD ["serve","-port", "1564", "-stderr"]
