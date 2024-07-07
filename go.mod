@@ -6,7 +6,7 @@ require (
 	github.com/boggydigital/backups v0.1.3
 	github.com/boggydigital/cf_api v0.1.3
 	github.com/boggydigital/clo v1.0.4
-	github.com/boggydigital/kevlar v0.5.10
+	github.com/boggydigital/kevlar v0.5.11
 	github.com/boggydigital/nod v0.1.21
 	github.com/boggydigital/pathways v0.1.14
 	github.com/boggydigital/wits v0.2.3
