@@ -14,6 +14,10 @@ github.com/boggydigital/kevlar v0.5.10 h1:25KnkxuaVhElR7PGb2P7C0wbGosXzNWqIluGjA
 github.com/boggydigital/kevlar v0.5.10/go.mod h1:eR+LJdemg0A8W+c/mTDaJH9n5xEFAGe3cuDoK7eSVBs=
 github.com/boggydigital/kevlar v0.5.11 h1:wa858dDH0hr27tPSw+1nDZEDN2tp4cObfkV2Hq/Xklw=
 github.com/boggydigital/kevlar v0.5.11/go.mod h1:eR+LJdemg0A8W+c/mTDaJH9n5xEFAGe3cuDoK7eSVBs=
+github.com/boggydigital/kevlar v0.5.12 h1:iPHmGE6vavaMEBop1xwMU+kD7J24xA4VTf3kBnbRtQI=
+github.com/boggydigital/kevlar v0.5.12/go.mod h1:eR+LJdemg0A8W+c/mTDaJH9n5xEFAGe3cuDoK7eSVBs=
+github.com/boggydigital/kevlar v0.5.13 h1:gg5WPvjIf+cYJiJtsxTyKziO9PMcNKZDvDHmYBEJOss=
+github.com/boggydigital/kevlar v0.5.13/go.mod h1:eR+LJdemg0A8W+c/mTDaJH9n5xEFAGe3cuDoK7eSVBs=
 github.com/boggydigital/nod v0.1.21 h1:pQbrgswCuU5dr3IWS1Z902PJAm5BebSLG+Q3aG7KJ+4=
 github.com/boggydigital/nod v0.1.21/go.mod h1:bYucIZ3rLHBZKf/3+T+eTSxuijuja7Y6OgU2P6o2/vo=
 github.com/boggydigital/pathways v0.1.14 h1:cJDL7WfwRM7T8FUJcXy28ReAE7AfeC3ZzDFqIUzGke4=
