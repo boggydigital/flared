@@ -2,7 +2,7 @@ package rest
 
 import (
 	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"net/http"
 	"sort"
@@ -50,7 +50,7 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 
 	lastSetIPs := make(map[string]string)
 	for _, name := range syncNames {
-		lastSetIPs[name], _ = rdx.GetFirstVal(data.LastSetIPsProperty, name)
+		lastSetIPs[name], _ = rdx.GetLastVal(data.LastSetIPsProperty, name)
 	}
 
 	status := &Status{
@@ -79,9 +79,9 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getTime(rdx kvas.ReadableRedux, p string) time.Time {
+func getTime(rdx kevlar.ReadableRedux, p string) time.Time {
 	u := int64(0)
-	if str, ok := rdx.GetFirstVal(data.SyncResultsProperty, p); ok {
+	if str, ok := rdx.GetLastVal(data.SyncResultsProperty, p); ok {
 		if su, err := strconv.ParseInt(str, 10, 64); err == nil {
 			u = su
 		}

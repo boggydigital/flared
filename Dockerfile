@@ -14,6 +14,8 @@ COPY --from=build /go/src/app/fd /usr/bin/fd
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 EXPOSE 1564
+#backups
+VOLUME /usr/share/flared/backups
 #input
 VOLUME /usr/share/flared/input
 #metadata

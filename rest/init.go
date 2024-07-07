@@ -2,7 +2,7 @@ package rest
 
 import (
 	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/pathways"
 	"html/template"
 	"io/fs"
@@ -10,7 +10,7 @@ import (
 
 var (
 	tmpl *template.Template
-	rdx  kvas.ReadableRedux
+	rdx  kevlar.ReadableRedux
 )
 
 func Init(templatesFS fs.FS) error {
@@ -23,7 +23,7 @@ func Init(templatesFS fs.FS) error {
 		return err
 	}
 
-	rdx, err = kvas.NewReduxReader(amd, data.AllProperties()...)
+	rdx, err = kevlar.NewReduxReader(amd, data.AllProperties()...)
 	if err != nil {
 		return err
 	}

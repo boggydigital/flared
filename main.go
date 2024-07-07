@@ -66,8 +66,10 @@ func main() {
 	}
 
 	clo.HandleFuncs(map[string]clo.Handler{
+		"backup":            cli.BackupHandler,
 		"create-dns-record": cli.CreateDNSRecordHandler,
 		"list-dns-records":  cli.ListDNSRecordsHandler,
+		"migrate":           cli.MigrateHandler,
 		"serve":             cli.ServeHandler,
 		"sync":              cli.SyncHandler,
 		"trace":             cli.TraceHandler,

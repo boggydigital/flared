@@ -6,6 +6,8 @@
 # {} - placeholder values
 # {^} - placeholder values, first value is default
 
+backup
+
 create-dns-record
     token$*
     zone-id$*
@@ -20,6 +22,8 @@ create-dns-record
 list-dns-records
     token$*
     zone-id$*
+
+migrate
 
 serve
     port$*

@@ -1,3 +1,5 @@
+backups
+ /var/lib/flared/backups
 input
  # input directory - domains.txt
  /var/lib/flared/input

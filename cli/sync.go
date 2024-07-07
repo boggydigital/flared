@@ -5,7 +5,7 @@ import (
 	"github.com/boggydigital/cf_api"
 	"github.com/boggydigital/cf_api/cf_trace"
 	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/pathways"
 	"github.com/boggydigital/wits"
@@ -47,7 +47,7 @@ func Sync(token, filename string) error {
 		return sa.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
+	rdx, err := kevlar.NewReduxWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		return sa.EndWithError(err)
 	}
@@ -245,14 +245,14 @@ func nts() string {
 	return strconv.FormatInt(time.Now().UTC().Unix(), 10)
 }
 
-func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx kvas.ReadableRedux) bool {
+func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx kevlar.ReadableRedux) bool {
 	for name, kv := range skv {
 		if content, ok := kv["content"]; ok {
 			if content != "" && content != ipv4 {
 				return false
 			}
 		}
-		if lsip, _ := rdx.GetFirstVal(data.LastSetIPsProperty, name); lsip != ipv4 {
+		if lsip, _ := rdx.GetLastVal(data.LastSetIPsProperty, name); lsip != ipv4 {
 			return false
 		}
 	}
