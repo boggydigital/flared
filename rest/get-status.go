@@ -2,8 +2,8 @@ package rest
 
 import (
 	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
+	"github.com/boggydigital/redux"
 	"net/http"
 	"sort"
 	"strconv"
@@ -79,7 +79,7 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getTime(rdx kevlar.ReadableRedux, p string) time.Time {
+func getTime(rdx redux.Readable, p string) time.Time {
 	u := int64(0)
 	if str, ok := rdx.GetLastVal(data.SyncResultsProperty, p); ok {
 		if su, err := strconv.ParseInt(str, 10, 64); err == nil {

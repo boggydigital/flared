@@ -2,15 +2,15 @@ package rest
 
 import (
 	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/pathways"
+	"github.com/boggydigital/redux"
 	"html/template"
 	"io/fs"
 )
 
 var (
 	tmpl *template.Template
-	rdx  kevlar.ReadableRedux
+	rdx  redux.Readable
 )
 
 func Init(templatesFS fs.FS) error {
@@ -23,7 +23,7 @@ func Init(templatesFS fs.FS) error {
 		return err
 	}
 
-	rdx, err = kevlar.NewReduxReader(amd, data.AllProperties()...)
+	rdx, err = redux.NewReader(amd, data.AllProperties()...)
 	if err != nil {
 		return err
 	}

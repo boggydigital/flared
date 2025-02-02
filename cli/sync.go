@@ -5,9 +5,9 @@ import (
 	"github.com/boggydigital/cf_api"
 	"github.com/boggydigital/cf_api/cf_trace"
 	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/pathways"
+	"github.com/boggydigital/redux"
 	"github.com/boggydigital/wits"
 	"golang.org/x/exp/maps"
 	"net/http"
@@ -47,7 +47,7 @@ func Sync(token, filename string) error {
 		return sa.EndWithError(err)
 	}
 
-	rdx, err := kevlar.NewReduxWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
+	rdx, err := redux.NewWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		return sa.EndWithError(err)
 	}
@@ -245,7 +245,7 @@ func nts() string {
 	return strconv.FormatInt(time.Now().UTC().Unix(), 10)
 }
 
-func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx kevlar.ReadableRedux) bool {
+func alreadySetLatestContent(ipv4 string, skv wits.SectionKeyValue, rdx redux.Readable) bool {
 	for name, kv := range skv {
 		if content, ok := kv["content"]; ok {
 			if content != "" && content != ipv4 {
