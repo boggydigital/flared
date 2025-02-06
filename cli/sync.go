@@ -9,11 +9,12 @@ import (
 	"github.com/boggydigital/pathways"
 	"github.com/boggydigital/redux"
 	"github.com/boggydigital/wits"
-	"golang.org/x/exp/maps"
+	"maps"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -85,7 +86,7 @@ func Sync(token, filename string) error {
 		return rskva.EndWithError(err)
 	}
 
-	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncNames, maps.Keys(skv)...); err != nil {
+	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncNames, slices.Collect(maps.Keys(skv))...); err != nil {
 		return sa.EndWithError(err)
 	}
 
@@ -158,7 +159,7 @@ func Sync(token, filename string) error {
 	cua.TotalInt(len(skv))
 
 	lsips := make(map[string][]string)
-	for _, name := range rdx.Keys(data.LastSetIPsProperty) {
+	for name := range rdx.Keys(data.LastSetIPsProperty) {
 		lsips[name], _ = rdx.GetAllValues(data.LastSetIPsProperty, name)
 	}
 
