@@ -18,7 +18,7 @@ func Trace() error {
 
 	tm, err := cf_trace.GetMap(http.DefaultClient)
 	if err != nil {
-		return ta.EndWithError(err)
+		return err
 	}
 
 	summary := make(map[string][]string)

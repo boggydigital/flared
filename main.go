@@ -45,13 +45,13 @@ func main() {
 		data.DefaultFlaredRootDir,
 		nil,
 		data.AllAbsDirs...); err != nil {
-		_ = ns.EndWithError(err)
+		_ = err
 		os.Exit(1)
 	}
 
 	once.Do(func() {
 		if err := rest.Init(templates); err != nil {
-			_ = ns.EndWithError(err)
+			_ = err
 			os.Exit(1)
 		}
 	})
@@ -61,7 +61,7 @@ func main() {
 		bytes.NewBuffer(cliHelp),
 		nil)
 	if err != nil {
-		_ = ns.EndWithError(err)
+		_ = err
 		os.Exit(1)
 	}
 
@@ -78,12 +78,12 @@ func main() {
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {
-		_ = ns.EndWithError(err)
+		_ = err
 		os.Exit(1)
 	}
 
 	if err := defs.Serve(os.Args[1:]); err != nil {
-		_ = ns.EndWithError(err)
+		_ = err
 		os.Exit(1)
 	}
 }

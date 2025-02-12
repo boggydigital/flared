@@ -50,7 +50,7 @@ func UpdateDNSRecord(
 
 	cdrr, err := c.UpdateDNSRecord(zoneId, id, content, name, proxied, recordType, comment, tags, ttl)
 	if err != nil {
-		return udra.EndWithError(err)
+		return err
 	}
 
 	udra.EndWithResult(nodDNSRecordResult(cdrr))

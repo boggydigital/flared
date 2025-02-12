@@ -51,7 +51,7 @@ func CreateDNSRecord(
 
 	cdrr, err := c.CreateDNSRecord(zoneId, content, name, proxied, recordType, comment, tags, ttl)
 	if err != nil {
-		return cdra.EndWithError(err)
+		return err
 	}
 
 	cdra.EndWithResult(nodDNSRecordResult(cdrr))

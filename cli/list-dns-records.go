@@ -27,7 +27,7 @@ func ListDNSRecords(token, zoneId string) error {
 
 	ldrr, err := client.ListDNSRecords(zoneId)
 	if err != nil {
-		return ldra.EndWithError(err)
+		return err
 	}
 
 	pdra := nod.Begin("")

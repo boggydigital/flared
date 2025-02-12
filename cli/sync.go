@@ -45,12 +45,12 @@ func Sync(token, filename string) error {
 
 	amd, err := pathways.GetAbsDir(data.Metadata)
 	if err != nil {
-		return sa.EndWithError(err)
+		return err
 	}
 
 	rdx, err := redux.NewWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
-		return sa.EndWithError(err)
+		return err
 	}
 
 	defer func() {
@@ -60,12 +60,12 @@ func Sync(token, filename string) error {
 	}()
 
 	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncStarted, nts()); err != nil {
-		return sa.EndWithError(err)
+		return err
 	}
 
 	aid, err := pathways.GetAbsDir(data.Input)
 	if err != nil {
-		return sa.EndWithError(err)
+		return err
 	}
 
 	// ignore everything that's not actual filename
@@ -78,16 +78,16 @@ func Sync(token, filename string) error {
 
 	f, err := os.Open(absFilename)
 	if err != nil {
-		return rskva.EndWithError(err)
+		return err
 	}
 
 	skv, err := wits.ReadSectionKeyValue(f)
 	if err != nil {
-		return rskva.EndWithError(err)
+		return err
 	}
 
 	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncNames, slices.Collect(maps.Keys(skv))...); err != nil {
-		return sa.EndWithError(err)
+		return err
 	}
 
 	rskva.EndWithResult("done")
@@ -106,7 +106,7 @@ func Sync(token, filename string) error {
 	ipv4 := ""
 	tm, err := cf_trace.GetMap(http.DefaultClient)
 	if err != nil {
-		return ta.EndWithError(err)
+		return err
 	}
 
 	if ip, ok := tm["ip"]; ok {
@@ -120,7 +120,7 @@ func Sync(token, filename string) error {
 	if alreadySetLatestContent(ipv4, skv, rdx) {
 
 		if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncCompleted, nts()); err != nil {
-			return sa.EndWithError(err)
+			return err
 		}
 
 		sa.EndWithResult("already set latest content")
@@ -139,7 +139,7 @@ func Sync(token, filename string) error {
 	for zoneId := range zones {
 		ldrr, err := c.ListDNSRecords(zoneId)
 		if err != nil {
-			return ldra.EndWithError(err)
+			return err
 		}
 		if ldrr.Success {
 			zoneRecords[zoneId] = ldrr.Result
@@ -210,7 +210,7 @@ func Sync(token, filename string) error {
 		lsips[name] = []string{content}
 
 		if err != nil {
-			return cua.EndWithError(err)
+			return err
 		}
 		nodDNSRecordResult(drr)
 
@@ -218,13 +218,13 @@ func Sync(token, filename string) error {
 	}
 
 	if err = rdx.BatchReplaceValues(data.LastSetIPsProperty, lsips); err != nil {
-		return sa.EndWithError(err)
+		return err
 	}
 
 	cua.EndWithResult("done")
 
 	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncCompleted, nts()); err != nil {
-		return sa.EndWithError(err)
+		return err
 	}
 
 	// clear error state
