@@ -14,7 +14,7 @@ func TraceHandler(u *url.URL) error {
 func Trace() error {
 
 	ta := nod.Begin("tracing...")
-	defer ta.End()
+	defer ta.EndWithResult("done")
 
 	tm, err := cf_trace.GetMap(http.DefaultClient)
 	if err != nil {

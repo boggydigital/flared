@@ -10,6 +10,7 @@ import (
 	"github.com/boggydigital/flared/rest"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/pathways"
+	"log"
 	"os"
 	"sync"
 )
@@ -38,21 +39,21 @@ func main() {
 	nod.EnableStdOutPresenter()
 
 	ns := nod.Begin("flared is processing DNS records")
-	defer ns.End()
+	defer ns.EndWithResult("done")
 
 	if err := pathways.Setup(
 		dirOverridesFilename,
 		data.DefaultFlaredRootDir,
 		nil,
 		data.AllAbsDirs...); err != nil {
-		_ = err
+		log.Println(err.Error())
 		os.Exit(1)
 	}
 
 	once.Do(func() {
 		if err := rest.Init(templates); err != nil {
-			_ = err
-			os.Exit(1)
+			log.Println(err.Error())
+			os.Exit(2)
 		}
 	})
 
@@ -61,8 +62,8 @@ func main() {
 		bytes.NewBuffer(cliHelp),
 		nil)
 	if err != nil {
-		_ = err
-		os.Exit(1)
+		log.Println(err.Error())
+		os.Exit(3)
 	}
 
 	clo.HandleFuncs(map[string]clo.Handler{
@@ -78,12 +79,12 @@ func main() {
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {
-		_ = err
-		os.Exit(1)
+		log.Println(err.Error())
+		os.Exit(4)
 	}
 
 	if err := defs.Serve(os.Args[1:]); err != nil {
-		_ = err
-		os.Exit(1)
+		log.Println(err.Error())
+		os.Exit(5)
 	}
 }

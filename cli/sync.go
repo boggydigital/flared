@@ -38,7 +38,7 @@ func Sync(token, filename string) error {
 	// 4.2) if record exists, get id and update
 
 	sa := nod.Begin("syncing DNS records...")
-	defer sa.End()
+	defer sa.EndWithResult("done")
 
 	// will always set error, unless it's cleared on success at the end
 	syncError := true
@@ -74,7 +74,7 @@ func Sync(token, filename string) error {
 	absFilename := filepath.Join(aid, filename)
 
 	rskva := nod.Begin(" reading %s...", absFilename)
-	defer rskva.End()
+	defer rskva.EndWithResult("done")
 
 	f, err := os.Open(absFilename)
 	if err != nil {
@@ -101,7 +101,7 @@ func Sync(token, filename string) error {
 	}
 
 	ta := nod.Begin(" tracing WAN IP address...")
-	defer ta.End()
+	defer ta.EndWithResult("done")
 
 	ipv4 := ""
 	tm, err := cf_trace.GetMap(http.DefaultClient)
@@ -128,7 +128,7 @@ func Sync(token, filename string) error {
 	}
 
 	ldra := nod.NewProgress(" listing current DNS records...")
-	defer ldra.End()
+	defer ldra.EndWithResult("done")
 
 	c := cf_api.NewClient(http.DefaultClient, token)
 
@@ -151,10 +151,8 @@ func Sync(token, filename string) error {
 		ldra.Increment()
 	}
 
-	ldra.EndWithResult("done")
-
 	cua := nod.NewProgress(" setting DNS records...")
-	defer cua.End()
+	defer cua.EndWithResult("done")
 
 	cua.TotalInt(len(skv))
 
@@ -220,8 +218,6 @@ func Sync(token, filename string) error {
 	if err = rdx.BatchReplaceValues(data.LastSetIPsProperty, lsips); err != nil {
 		return err
 	}
-
-	cua.EndWithResult("done")
 
 	if err = rdx.ReplaceValues(data.SyncResultsProperty, data.SyncCompleted, nts()); err != nil {
 		return err

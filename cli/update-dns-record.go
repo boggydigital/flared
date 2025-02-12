@@ -44,7 +44,7 @@ func UpdateDNSRecord(
 	ttl int) error {
 
 	udra := nod.Begin("updating DNS record...")
-	defer udra.End()
+	defer udra.EndWithResult("done")
 
 	c := cf_api.NewClient(http.DefaultClient, token)
 

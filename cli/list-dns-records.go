@@ -21,7 +21,7 @@ func ListDNSRecordsHandler(u *url.URL) error {
 func ListDNSRecords(token, zoneId string) error {
 
 	ldra := nod.Begin("listing DNS records for zone:%s...", zoneId)
-	defer ldra.End()
+	defer ldra.EndWithResult("done")
 
 	client := cf_api.NewClient(http.DefaultClient, token)
 
@@ -31,7 +31,7 @@ func ListDNSRecords(token, zoneId string) error {
 	}
 
 	pdra := nod.Begin("")
-	defer pdra.End()
+	defer pdra.EndWithResult("done")
 
 	summary := make(map[string][]string)
 	heading := ""

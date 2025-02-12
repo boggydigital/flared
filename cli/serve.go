@@ -29,7 +29,7 @@ func Serve(port int, stderr bool) error {
 	}
 
 	sa := nod.Begin("serving at port %d...", port)
-	defer sa.End()
+	defer sa.EndWithResult("done")
 
 	rest.HandleFuncs()
 

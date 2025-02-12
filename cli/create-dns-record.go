@@ -45,7 +45,7 @@ func CreateDNSRecord(
 	ttl int) error {
 
 	cdra := nod.Begin("creating DNS record...")
-	defer cdra.End()
+	defer cdra.EndWithResult("done")
 
 	c := cf_api.NewClient(http.DefaultClient, token)
 
@@ -61,7 +61,7 @@ func CreateDNSRecord(
 
 func nodDNSRecordResult(drrr *cf_api.DNSRecordResultResponse) string {
 	pdra := nod.Begin("")
-	defer pdra.End()
+	defer pdra.EndWithResult("done")
 
 	summary := make(map[string][]string)
 	heading := ""
