@@ -2,7 +2,7 @@ package cli
 
 import (
 	"fmt"
-	"github.com/boggydigital/cf_api"
+	"github.com/boggydigital/flared/cf_api"
 	"github.com/boggydigital/nod"
 	"net/http"
 	"net/url"

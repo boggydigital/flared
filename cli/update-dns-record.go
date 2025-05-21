@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/boggydigital/cf_api"
+	"github.com/boggydigital/flared/cf_api"
 	"github.com/boggydigital/nod"
 	"net/http"
 	"net/url"

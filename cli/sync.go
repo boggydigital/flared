@@ -2,8 +2,8 @@ package cli
 
 import (
 	"fmt"
-	"github.com/boggydigital/cf_api"
-	"github.com/boggydigital/cf_api/cf_trace"
+	"github.com/boggydigital/flared/cf_api"
+	"github.com/boggydigital/flared/cf_trace"
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/pathways"

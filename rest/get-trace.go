@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/boggydigital/cf_api/cf_trace"
+	"github.com/boggydigital/flared/cf_trace"
 	"github.com/boggydigital/nod"
 	"net/http"
 )
