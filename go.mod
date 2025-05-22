@@ -1,6 +1,6 @@
 module github.com/boggydigital/flared
 
-go 1.24.0
+go 1.24.3
 
 require (
 	github.com/boggydigital/backups v0.1.6
@@ -12,4 +12,10 @@ require (
 	github.com/boggydigital/wits v0.2.3
 )
 
-require github.com/boggydigital/busan v0.1.1 // indirect
+require (
+	github.com/boggydigital/busan v0.1.1 // indirect
+	github.com/boggydigital/compton v0.3.21 // indirect
+	github.com/boggydigital/issa v0.1.23 // indirect
+	golang.org/x/image v0.27.0 // indirect
+	golang.org/x/net v0.40.0 // indirect
+)

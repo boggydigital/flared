@@ -31,6 +31,10 @@ func Serve(port int, stderr bool) error {
 	sa := nod.Begin("serving at port %d...", port)
 	defer sa.EndWithResult("done")
 
+	if err := rest.Init(); err != nil {
+		return err
+	}
+
 	rest.HandleFuncs()
 
 	return http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
