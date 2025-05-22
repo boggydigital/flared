@@ -4,6 +4,7 @@ import (
 	"github.com/boggydigital/compton"
 	color "github.com/boggydigital/compton/consts/color"
 	"github.com/boggydigital/compton/consts/direction"
+	"github.com/boggydigital/compton/consts/font_weight"
 	"github.com/boggydigital/compton/consts/size"
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/nod"
@@ -25,14 +26,6 @@ var statusColors = map[string]color.Color{
 	StatusSuccess:    color.Green,
 	StatusProcessing: color.Yellow,
 	StatusError:      color.Red,
-}
-
-type Status struct {
-	State          string
-	TimestampTitle string
-	Timestamp      time.Time
-	Names          []string
-	LastSetIPs     map[string]string
 }
 
 func GetStatus(w http.ResponseWriter, r *http.Request) {
@@ -77,6 +70,8 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 		tsTitle = "Last error:"
 	}
 
+	tsText := tsTitle + " " + tsTime.Format(time.RFC3339)
+
 	p := compton.Page("flared")
 	p.SetAttribute("style", "--c-rep:var(--c-background)")
 
@@ -104,14 +99,20 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 	pageStack.Append(compton.HeadingText("Debug", 2))
 
 	traceLink := compton.A("/trace")
-	traceLink.Append(compton.Fspan(p, "Trace").ForegroundColor(color.Blue))
+	traceLink.Append(compton.Fspan(p, "Trace").
+		ForegroundColor(color.Blue).
+		FontWeight(font_weight.Bolder))
 	pageStack.Append(traceLink)
 
 	cfDashLink := compton.A("https://dash.cloudflare.com/")
-	cfDashLink.Append(compton.Fspan(p, "Cloudflare dashboard").ForegroundColor(color.Blue))
+	cfDashLink.Append(compton.Fspan(p, "Cloudflare dashboard").
+		ForegroundColor(color.Blue).
+		FontWeight(font_weight.Bolder))
 	pageStack.Append(cfDashLink)
 
-	tsFspan := compton.Fspan(p, tsTitle+" "+tsTime.Format(time.RFC3339)).
+	pageStack.Append(compton.Break())
+
+	tsFspan := compton.Fspan(p, tsText).
 		ForegroundColor(color.Gray).
 		FontSize(size.XSmall)
 
