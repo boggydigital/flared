@@ -20,6 +20,8 @@ VOLUME /usr/share/flared/backups
 VOLUME /usr/share/flared/input
 #metadata
 VOLUME /usr/share/flared/metadata
+#logs
+VOLUME /usr/share/flared/logs
 
 ENTRYPOINT ["/usr/bin/flared"]
 CMD ["serve","-port", "1564", "-stderr"]

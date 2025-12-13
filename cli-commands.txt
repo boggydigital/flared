@@ -23,8 +23,6 @@ list-dns-records
     token$*
     zone-id$*
 
-migrate
-
 serve
     port$*
     stderr$

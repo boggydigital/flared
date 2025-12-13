@@ -3,13 +3,15 @@ package main
 import (
 	"bytes"
 	_ "embed"
+	"log"
+	"net/url"
+	"os"
+
 	"github.com/boggydigital/clo"
 	"github.com/boggydigital/flared/cli"
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/pathways"
-	"log"
-	"os"
 )
 
 var (
@@ -21,6 +23,7 @@ var (
 
 const (
 	dirOverridesFilename = "directories.txt"
+	debugParam           = "debug"
 )
 
 func main() {
@@ -50,7 +53,6 @@ func main() {
 		"backup":            cli.BackupHandler,
 		"create-dns-record": cli.CreateDNSRecordHandler,
 		"list-dns-records":  cli.ListDNSRecordsHandler,
-		"migrate":           cli.MigrateHandler,
 		"serve":             cli.ServeHandler,
 		"sync":              cli.SyncHandler,
 		"trace":             cli.TraceHandler,
@@ -62,7 +64,25 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if err = defs.Serve(os.Args[1:]); err != nil {
+	var u *url.URL
+	u, err = defs.Parse(os.Args[1:])
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if q := u.Query(); q.Has(debugParam) {
+		absLogsDir, err := pathways.GetAbsDir(data.Logs)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		logger, err := nod.EnableFileLogger(u.Path, absLogsDir)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		defer logger.Close()
+	}
+
+	if err = defs.Serve(u); err != nil {
 		log.Fatalln(err)
 	}
 }

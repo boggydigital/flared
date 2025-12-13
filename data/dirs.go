@@ -8,10 +8,12 @@ const (
 	Input    pathways.AbsDir = "input"
 	Metadata pathways.AbsDir = "metadata"
 	Backups  pathways.AbsDir = "backups"
+	Logs     pathways.AbsDir = "logs"
 )
 
 var AllAbsDirs = []pathways.AbsDir{
 	Input,
 	Metadata,
 	Backups,
+	Logs,
 }
