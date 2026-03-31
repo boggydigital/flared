@@ -2,13 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"github.com/boggydigital/flared/cf_api"
-	"github.com/boggydigital/flared/cf_trace"
-	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/nod"
-	"github.com/boggydigital/pathways"
-	"github.com/boggydigital/redux"
-	"github.com/boggydigital/wits"
 	"maps"
 	"net/http"
 	"net/url"
@@ -18,6 +11,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/boggydigital/flared/cf_api"
+	"github.com/boggydigital/flared/cf_trace"
+	"github.com/boggydigital/flared/data"
+	"github.com/boggydigital/nod"
+	"github.com/boggydigital/redux"
+	"github.com/boggydigital/wits"
 )
 
 func SyncHandler(u *url.URL) error {
@@ -43,10 +43,7 @@ func Sync(token, filename string) error {
 	// will always set error, unless it's cleared on success at the end
 	syncError := true
 
-	amd, err := pathways.GetAbsDir(data.Metadata)
-	if err != nil {
-		return err
-	}
+	amd := data.Pwd.AbsDirPath(data.Metadata)
 
 	rdx, err := redux.NewWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
@@ -63,10 +60,7 @@ func Sync(token, filename string) error {
 		return err
 	}
 
-	aid, err := pathways.GetAbsDir(data.Input)
-	if err != nil {
-		return err
-	}
+	aid := data.Pwd.AbsDirPath(data.Input)
 
 	// ignore everything that's not actual filename
 	filename = filepath.Base(filename)

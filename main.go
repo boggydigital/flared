@@ -11,7 +11,6 @@ import (
 	"github.com/boggydigital/flared/cli"
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigital/pathways"
 )
 
 var (
@@ -22,8 +21,7 @@ var (
 )
 
 const (
-	dirOverridesFilename = "directories.txt"
-	debugParam           = "debug"
+	debugParam = "debug"
 )
 
 func main() {
@@ -33,11 +31,7 @@ func main() {
 	ns := nod.Begin("flared is processing DNS records")
 	defer ns.EndWithResult("done")
 
-	if err := pathways.Setup(
-		dirOverridesFilename,
-		data.DefaultFlaredRootDir,
-		nil,
-		data.AllAbsDirs...); err != nil {
+	if err := data.InitPathways(); err != nil {
 		log.Fatalln(err)
 	}
 
@@ -71,10 +65,7 @@ func main() {
 	}
 
 	if q := u.Query(); q.Has(debugParam) {
-		absLogsDir, err := pathways.GetAbsDir(data.Logs)
-		if err != nil {
-			log.Fatalln(err)
-		}
+		absLogsDir := data.Pwd.AbsDirPath(data.Logs)
 		logger, err := nod.EnableFileLogger(u.Path, absLogsDir)
 		if err != nil {
 			log.Fatalln(err)

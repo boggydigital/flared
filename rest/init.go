@@ -2,7 +2,6 @@ package rest
 
 import (
 	"github.com/boggydigital/flared/data"
-	"github.com/boggydigital/pathways"
 	"github.com/boggydigital/redux"
 )
 
@@ -11,11 +10,10 @@ var (
 )
 
 func Init() error {
-	amd, err := pathways.GetAbsDir(data.Metadata)
-	if err != nil {
-		return err
-	}
 
+	amd := data.Pwd.AbsDirPath(data.Metadata)
+
+	var err error
 	rdx, err = redux.NewReader(amd, data.AllProperties()...)
 	if err != nil {
 		return err

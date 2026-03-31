@@ -2,7 +2,7 @@ package data
 
 import "github.com/boggydigital/pathways"
 
-const DefaultFlaredRootDir = "/usr/share/flared"
+const defaultRootDir = "/usr/share/flared"
 
 const (
 	Input    pathways.AbsDir = "input"
@@ -16,4 +16,12 @@ var AllAbsDirs = []pathways.AbsDir{
 	Metadata,
 	Backups,
 	Logs,
+}
+
+var Pwd pathways.Pathway
+
+func InitPathways() error {
+	var err error
+	Pwd, err = pathways.NewRoot(defaultRootDir)
+	return err
 }
