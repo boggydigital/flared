@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"github.com/boggydigital/camino"
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/redux"
 )
@@ -11,7 +12,7 @@ var (
 
 func Init() error {
 
-	amd := data.Pwd.AbsDirPath(data.Metadata)
+	amd := camino.GetAbs(data.Metadata)
 
 	var err error
 	rdx, err = redux.NewReader(amd, data.AllProperties()...)

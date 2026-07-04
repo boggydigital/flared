@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/boggydigital/camino"
 	"github.com/boggydigital/flared/cf_api"
 	"github.com/boggydigital/flared/cf_trace"
 	"github.com/boggydigital/flared/data"
@@ -43,9 +44,9 @@ func Sync(token, filename string) error {
 	// will always set error, unless it's cleared on success at the end
 	syncError := true
 
-	amd := data.Pwd.AbsDirPath(data.Metadata)
+	metadataDir := camino.GetAbs(data.Metadata)
 
-	rdx, err := redux.NewWriter(amd, data.SyncResultsProperty, data.LastSetIPsProperty)
+	rdx, err := redux.NewWriter(metadataDir, data.SyncResultsProperty, data.LastSetIPsProperty)
 	if err != nil {
 		return err
 	}
@@ -60,12 +61,12 @@ func Sync(token, filename string) error {
 		return err
 	}
 
-	aid := data.Pwd.AbsDirPath(data.Input)
+	inputDir := camino.GetAbs(data.Input)
 
 	// ignore everything that's not actual filename
 	filename = filepath.Base(filename)
 
-	absFilename := filepath.Join(aid, filename)
+	absFilename := filepath.Join(inputDir, filename)
 
 	rskva := nod.Begin(" reading %s...", absFilename)
 	defer rskva.EndWithResult("done")

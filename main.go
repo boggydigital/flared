@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/boggydigital/camino"
 	"github.com/boggydigital/clo"
 	"github.com/boggydigital/flared/cli"
 	"github.com/boggydigital/flared/data"
@@ -31,7 +32,7 @@ func main() {
 	ns := nod.Begin("flared is processing DNS records")
 	defer ns.EndWithResult("done")
 
-	if err := data.InitPathways(); err != nil {
+	if err := data.InitFlaredCamino(); err != nil {
 		log.Fatalln(err)
 	}
 
@@ -65,7 +66,7 @@ func main() {
 	}
 
 	if q := u.Query(); q.Has(debugParam) {
-		absLogsDir := data.Pwd.AbsDirPath(data.Logs)
+		absLogsDir := camino.GetAbs(data.Logs)
 		logger, err := nod.EnableFileLogger(u.Path, absLogsDir)
 		if err != nil {
 			log.Fatalln(err)
