@@ -1,6 +1,12 @@
 package rest
 
 import (
+	"maps"
+	"net/http"
+	"slices"
+	"strconv"
+	"time"
+
 	"github.com/boggydigital/compton"
 	color "github.com/boggydigital/compton/consts/color"
 	"github.com/boggydigital/compton/consts/direction"
@@ -9,11 +15,6 @@ import (
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/redux"
-	"maps"
-	"net/http"
-	"slices"
-	"strconv"
-	"time"
 )
 
 const (
@@ -70,7 +71,7 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 		tsTitle = "Last error:"
 	}
 
-	tsText := tsTitle + " " + tsTime.Format(time.RFC3339)
+	tsText := tsTitle + " " + tsTime.Format(time.DateTime)
 
 	p := compton.Page("flared")
 	p.SetAttribute("style", "--c-rep:var(--c-background)")
