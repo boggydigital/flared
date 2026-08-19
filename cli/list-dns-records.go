@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/boggydigital/flared/cf_api"
 	"github.com/boggydigital/nod"
+	"maps"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -41,9 +42,7 @@ func ListDNSRecords(token, zoneId string) error {
 
 		heading = "DNS records:"
 		for _, drr := range ldrr.Result {
-			for k, v := range drr.Summary() {
-				summary[k] = v
-			}
+			maps.Copy(summary, drr.Summary())
 		}
 
 	} else {

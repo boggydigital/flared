@@ -87,7 +87,7 @@ func Sync(token, filename string) error {
 
 	rskva.EndWithResult("done")
 
-	zones := make(map[string]interface{})
+	zones := make(map[string]any)
 
 	for _, kv := range skv {
 		if zoneId, ok := kv["zone-id"]; ok {
