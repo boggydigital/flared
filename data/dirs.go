@@ -1,10 +1,15 @@
 package data
 
 import (
+	"os"
+
 	"github.com/boggydigital/camino"
 )
 
-const flaredRootDir = "/usr/share/flared"
+const (
+	flaredRootDir       = "/usr/share/flared"
+	directoriesFilename = "directories.txt"
+)
 
 const (
 	Input camino.AbsDir = iota
@@ -22,7 +27,15 @@ var absDirNames = map[camino.AbsDir]string{
 
 func InitFlaredCamino() error {
 
-	flaredAbsPaths := camino.ResolveAbsPaths(flaredRootDir, absDirNames, nil)
+	var overrides map[string]string
+
+	if _, err := os.Stat(directoriesFilename); err == nil {
+		if overrides, err = camino.ReadOverrides(directoriesFilename); err != nil {
+			return err
+		}
+	}
+
+	flaredAbsPaths := camino.ResolveAbsPaths(flaredRootDir, absDirNames, overrides)
 
 	return camino.Register(flaredAbsPaths, nil, nil)
 }

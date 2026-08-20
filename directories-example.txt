@@ -1,8 +1,7 @@
-backups
- /var/lib/flared/backups
-input
- # input directory - domains.txt
- /var/lib/flared/input
-metadata
- # metadata
- /var/log/flared/metadata
+backups=/usr/share/flared/backups
+# input directory - domains.txt
+input=/usr/share/flared/input
+# metadata
+metadata=/usr/share/flared/metadata
+logs=/usr/share/flared/logs
+

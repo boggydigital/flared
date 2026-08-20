@@ -1,13 +1,15 @@
 package rest
 
 import (
-	"github.com/boggydigital/compton"
-	"github.com/boggydigital/compton/consts/direction"
-	"github.com/boggydigital/flared/cf_trace"
-	"github.com/boggydigital/nod"
 	"maps"
 	"net/http"
 	"slices"
+
+	"github.com/boggydigital/flared/cf_trace"
+	"github.com/boggydigital/nod"
+	"github.com/boggydigital/strom"
+	"github.com/boggydigital/strom/vars/atoms"
+	"github.com/boggydigital/strom/vars/sizes"
 )
 
 func GetTrace(w http.ResponseWriter, r *http.Request) {
@@ -20,25 +22,23 @@ func GetTrace(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	p := compton.Page("flared trace")
-	p.SetAttribute("style", "--c-rep: var(--c-background)")
+	root, body := strom.RootBody("flared trace", atoms.FlexCol(sizes.Normal)...)
+	for head := range root.GetElementsByTagName("head") {
+		head.Append(strom.Stylesheet(tableStyles))
+		break
+	}
 
-	pageStack := compton.FlexItems(p, direction.Column)
-	p.Append(pageStack)
+	body.Append(strom.CreateText("h1", "Trace Results"))
 
-	pageStack.Append(compton.HeadingText("Trace Results", 1))
-
-	table := compton.Table(p)
-	table.AppendHead("Name", "Content")
+	table := createTable("Name", "Content")
+	body.Append(table)
 
 	keys := slices.Sorted(maps.Keys(traceMap))
 	for _, key := range keys {
-		table.AppendRow(key, traceMap[key])
+		appendRow(table, key, traceMap[key])
 	}
 
-	pageStack.Append(table)
-
-	if err = p.WriteResponse(w); err != nil {
+	if err = strom.WriteResponse(w, root); err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
 	}

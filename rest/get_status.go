@@ -1,20 +1,22 @@
 package rest
 
 import (
+	_ "embed"
 	"maps"
 	"net/http"
 	"slices"
 	"strconv"
 	"time"
 
-	"github.com/boggydigital/compton"
-	color "github.com/boggydigital/compton/consts/color"
-	"github.com/boggydigital/compton/consts/direction"
-	"github.com/boggydigital/compton/consts/font_weight"
-	"github.com/boggydigital/compton/consts/size"
 	"github.com/boggydigital/flared/data"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/redux"
+	"github.com/boggydigital/strom"
+	"github.com/boggydigital/strom/vars/atoms"
+	"github.com/boggydigital/strom/vars/colors"
+	"github.com/boggydigital/strom/vars/font_sizes"
+	"github.com/boggydigital/strom/vars/font_weights"
+	"github.com/boggydigital/strom/vars/sizes"
 )
 
 const (
@@ -23,11 +25,14 @@ const (
 	StatusError      = "Error"
 )
 
-var statusColors = map[string]color.Color{
-	StatusSuccess:    color.Green,
-	StatusProcessing: color.Yellow,
-	StatusError:      color.Red,
+var statusColors = map[string]colors.Color{
+	StatusSuccess:    colors.Green,
+	StatusProcessing: colors.Yellow,
+	StatusError:      colors.Red,
 }
+
+//go:embed "styles/table.css"
+var tableStyles []byte
 
 func GetStatus(w http.ResponseWriter, r *http.Request) {
 
@@ -73,53 +78,40 @@ func GetStatus(w http.ResponseWriter, r *http.Request) {
 
 	tsText := tsTitle + " " + tsTime.Format(time.DateTime)
 
-	p := compton.Page("flared")
-	p.SetAttribute("style", "--c-rep:var(--c-background)")
+	root, body := strom.RootBody("flared", atoms.FlexCol(sizes.Normal)...)
 
-	pageStack := compton.FlexItems(p, direction.Column)
-	p.Append(pageStack)
-
-	statusHeading := compton.H1()
-	statusText := compton.Fspan(p, state).
-		ForegroundColor(statusColors[state])
-	statusHeading.Append(statusText)
-
-	pageStack.Append(statusHeading)
-
-	domainIpTable := compton.Table(p)
-	domainIpTable.AppendHead("Domain", "Address")
-
-	sortedDomains := slices.Sorted(maps.Keys(lastSetIPs))
-
-	for _, domain := range sortedDomains {
-		domainIpTable.AppendRow(domain, lastSetIPs[domain])
+	for head := range root.GetElementsByTagName("head") {
+		head.Append(strom.Stylesheet(tableStyles))
+		break
 	}
 
-	pageStack.Append(domainIpTable)
+	body.Append(strom.CreateText("h1", state).SetStyle("color:" + statusColors[state]))
 
-	pageStack.Append(compton.HeadingText("Debug", 2))
+	dipTable := createTable("Domain", "Address")
 
-	traceLink := compton.A("/trace")
-	traceLink.Append(compton.Fspan(p, "Trace").
-		ForegroundColor(color.Blue).
-		FontWeight(font_weight.Bolder))
-	pageStack.Append(traceLink)
+	sortedDomains := slices.Sorted(maps.Keys(lastSetIPs))
+	for _, domain := range sortedDomains {
+		appendRow(dipTable, domain, lastSetIPs[domain])
+	}
 
-	cfDashLink := compton.A("https://dash.cloudflare.com/")
-	cfDashLink.Append(compton.Fspan(p, "Cloudflare dashboard").
-		ForegroundColor(color.Blue).
-		FontWeight(font_weight.Bolder))
-	pageStack.Append(cfDashLink)
+	body.Append(dipTable)
 
-	pageStack.Append(compton.Break())
+	body.Append(strom.CreateText("h2", "Debug"))
 
-	tsFspan := compton.Fspan(p, tsText).
-		ForegroundColor(color.Gray).
-		FontSize(size.XSmall)
+	body.Append(
+		strom.CreateText("a", "Trace").
+			SetAttribute("href", "/trace").
+			SetStyle("color:"+colors.Blue, "font-weight:"+font_weights.Bold))
 
-	pageStack.Append(tsFspan)
+	body.Append(
+		strom.CreateText("a", "Cloudflare dashboard").
+			SetAttribute("href", "https://dash.cloudflare.com/").
+			SetStyle("color:"+colors.Blue, "font-weight:"+font_weights.Bold))
 
-	if err = p.WriteResponse(w); err != nil {
+	body.Append(strom.CreateText("span", tsText).
+		SetStyle("color:"+colors.Gray, "font-size:"+font_sizes.XSmall))
+
+	if err = strom.WriteResponse(w, root); err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
 	}
@@ -133,4 +125,42 @@ func getTime(rdx redux.Readable, p string) time.Time {
 		}
 	}
 	return time.Unix(u, 0)
+}
+
+func createTable(headings ...string) strom.Element {
+
+	table := strom.Create("table")
+	thead := strom.Create("thead")
+	tableRow := strom.Create("tr")
+	table.Append(thead)
+	thead.Append(tableRow)
+
+	for _, heading := range headings {
+		tableRow.Append(strom.CreateText("th", heading))
+	}
+
+	tbody := strom.Create("tbody")
+	table.Append(tbody)
+
+	return table
+}
+
+func appendRow(table strom.Element, values ...string) {
+
+	var tbody strom.Element
+	for tb := range table.GetElementsByTagName("tbody") {
+		tbody = tb
+		break
+	}
+
+	if tbody == nil {
+		return
+	}
+
+	row := strom.Create("tr")
+	for _, value := range values {
+		row.Append(
+			strom.CreateText("td", value))
+	}
+	tbody.Append(row)
 }
