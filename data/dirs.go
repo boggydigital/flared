@@ -37,5 +37,5 @@ func InitFlaredCamino() error {
 
 	flaredAbsPaths := camino.ResolveAbsPaths(flaredRootDir, absDirNames, overrides)
 
-	return camino.Register(flaredAbsPaths, nil, nil)
+	return camino.Register(flaredAbsPaths, nil, nil, len(overrides) == 0)
 }

@@ -3,7 +3,7 @@ module github.com/boggydigital/flared
 go 1.27.0
 
 require (
-	github.com/boggydigital/camino v0.2.19
+	github.com/boggydigital/camino v0.2.20
 	github.com/boggydigital/clo v1.0.8
 	github.com/boggydigital/nod v0.1.30
 	github.com/boggydigital/redux v0.1.12
