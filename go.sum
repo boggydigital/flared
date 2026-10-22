@@ -12,9 +12,13 @@ github.com/boggydigital/redux v0.1.12 h1:NCZTKt1POxW1Fh9JWtneCFOOnfGtX0huMpgmNeu
 github.com/boggydigital/redux v0.1.12/go.mod h1:5TkhPsjyEaYQp0+NW2xfVnHfaFQY5HRhoqLZCFU5Lt0=
 github.com/boggydigital/strom v0.1.10 h1:iRDYn8Sxm/Smb2NY0C+mYf9dskC3xTdOpr6aBZAap0U=
 github.com/boggydigital/strom v0.1.10/go.mod h1:9Oe6s+Yc4vIqwrWkQ8ifSy8YmMfR2Sx49N/Agc+WXVc=
+github.com/boggydigital/strom v0.1.12 h1:2Wftyp+RgPqUWIxs+emKk2h0xmg7eAAzOnC8249zgvg=
+github.com/boggydigital/strom v0.1.12/go.mod h1:2M+HB7lSaRKqhCxBM5j0srVeQYce2d7etGGLRwArQb0=
 github.com/boggydigital/testo v0.1.8 h1:NKuKLpWKn8gG3dYq8xNrFYHimxoCTdzLOs242q6jeQo=
 github.com/boggydigital/testo v0.1.8/go.mod h1:8JTO6UKeQPsHS82vbCH/3NLDfewmr/84vVQ6rNLdCas=
 github.com/boggydigital/wits v0.2.3 h1:Z0eB+QlIA18fJmblyV6ZJQ/swPYSFhOxfgMXOQz4/c8=
 github.com/boggydigital/wits v0.2.3/go.mod h1:aR/z0vfMLtg0b4hcts0qiSTZcA51O8A2N3U9laqd2Lc=
 golang.org/x/net v0.58.0 h1:ynWG7rqYi4ccpTEuPZ2QGWHktVEM9DMCj9yzDE0Q7To=
 golang.org/x/net v0.58.0/go.mod h1:YwCddHnFlT7eLQqVprV19OnhLGtc5xOKgE0RyqgfWAU=
+golang.org/x/net v0.61.0 h1:RR+6j/BTBCrggOLugxa+66R8FvoN6MHlzDlZIbN9YFw=
+golang.org/x/net v0.61.0/go.mod h1:WgDCOTH8iwtB66T4/GfI94AHo/hhdb7Hah9NDseQfiI=
